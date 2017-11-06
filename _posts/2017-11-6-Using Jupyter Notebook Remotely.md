@@ -20,11 +20,11 @@ When you are working on large data set or need extra computing power, you may ne
 First, you may want to set up a password for your notebook. For detailed instruction, you can look up [here](http://jupyter-notebook.readthedocs.io/en/stable/public_server.html#notebook-server-security).  
 
 If you are looking for a quick set up, you can follow these steps:  
-```
-$ jupyter notebook --generate-config
+```bash
+jupyter notebook --generate-config
 ```
 Then you can create your password by
-```
+```bash
 jupyter notebook password
 ```
 
@@ -32,8 +32,8 @@ After setting up password, start a jupyter notebook in no browser mode, and spec
 ```bash
 jupyter notebook --no-browser --port=8889
 ```
-Of course, you can replace 8889 with any port you like, just make sure there is no clash. 
-If you plan to run the notebook for long period of time, it might be a good idea to run your notebook in without hangup, i.e.  
+Of course, you can replace 8889 with any port you like, just make sure there is no clash.  
+If you plan to run the notebook for long period of time, you can run your notebook without hangup  
 ```
 nohup jupyter notebook --no-browser --port=8889
 ```
