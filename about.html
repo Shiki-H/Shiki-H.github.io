@@ -6,12 +6,15 @@ header-img: "img/about-bg.jpg"
 ---
 
 <!-- Language Selector -->
+<!--
 <select onchange= "onLanChange(this.options[this.options.selectedIndex].value)">
     <option value="0" selected> 中文 Chinese </option>
     <option value="1"> 英语 English </option>
 </select>
+//-->
 
 <!-- Chinese Version -->
+<!--
 <div class="zh post-container">
     <blockquote>
         写写代码，做做设计，看看产品。
@@ -25,6 +28,7 @@ header-img: "img/about-bg.jpg"
     </p>
 
 </div>
+//-->
 
 <!-- English Version -->
 <div class="en post-container">
@@ -47,6 +51,7 @@ header-img: "img/about-bg.jpg"
 </div>
 
 <!-- Handle Language Change -->
+<!--
 <script type="text/javascript">
     var $zh = document.querySelector(".zh");
     var $en = document.querySelector(".en");
@@ -61,7 +66,7 @@ header-img: "img/about-bg.jpg"
     }
     onLanChange(0);
 </script>
-
+//-->
 
 
 {% if site.duoshuo_username %}
