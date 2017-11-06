@@ -124,14 +124,14 @@
 
 
     <!-- Page Header -->
-<header class="intro-header" style="background-image: url('/huxblog-boilerplate/img/about-bg.jpg')">
+<header class="intro-header" style="background-image: url('/huxblog-boilerplate/img/default.jpg')">
     <div class="container">
         <div class="row">
             <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1 ">
                 <div class="site-heading">
                     <h1>About</h1>
                     <!--<hr class="small">-->
-                    <span class="subheading">Hey, this is Hux.</span>
+                    <span class="subheading"></span>
                 </div>
             </div>
         </div>
@@ -146,12 +146,15 @@
     <!-- Post Container -->
             <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1 post-container">
                 <!-- Language Selector -->
+<!--
 <select onchange= "onLanChange(this.options[this.options.selectedIndex].value)">
     <option value="0" selected> 中文 Chinese </option>
     <option value="1"> 英语 English </option>
 </select>
+//-->
 
 <!-- Chinese Version -->
+<!--
 <div class="zh post-container">
     <blockquote>
         写写代码，做做设计，看看产品。
@@ -165,28 +168,19 @@
     </p>
 
 </div>
+//-->
 
 <!-- English Version -->
 <div class="en post-container">
-    <blockquote>
-        Designer or Engineer, things in between.
-    </blockquote>
-
+    
     <p>
-        Your work is going to fill a large part of your life, and the only way to be truly satisfied is to do what you believe is great work. And the only way to do great work is to love what you do. If you haven’t found it yet, keep looking. Don’t settle. As with all matters of the heart, you’ll know when you find it.
-    </p>
-
-    <p>
-    If you want to live your life in a creative way, as an artist, you have to not look back too much. You have to be willing to take whatever you’ve done and whoever you were and throw them away.
-    </p>
-
-    <p style="text-align:right;">
-    -- Steve Jobs
+        The purpose of this blog is to share some solutions to technical problems I have encountered, interesting math problems I came across, as well as study notes I compiled or found.
     </p>
 
 </div>
 
 <!-- Handle Language Change -->
+<!--
 <script type="text/javascript">
     var $zh = document.querySelector(".zh");
     var $en = document.querySelector(".en");
@@ -201,7 +195,7 @@
     }
     onLanChange(0);
 </script>
-
+//-->
 
 
 
