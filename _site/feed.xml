@@ -3,11 +3,62 @@
   <channel>
     <title>Shiki's Blog</title>
     <description></description>
-    <link>http://localhost:4000/huxblog-boilerplate/</link>
-    <atom:link href="http://localhost:4000/huxblog-boilerplate/feed.xml" rel="self" type="application/rss+xml" />
-    <pubDate>Mon, 06 Nov 2017 02:01:58 -0500</pubDate>
-    <lastBuildDate>Mon, 06 Nov 2017 02:01:58 -0500</lastBuildDate>
+    <link>http://localhost:4000/</link>
+    <atom:link href="http://localhost:4000/feed.xml" rel="self" type="application/rss+xml" />
+    <pubDate>Mon, 06 Nov 2017 16:47:28 -0500</pubDate>
+    <lastBuildDate>Mon, 06 Nov 2017 16:47:28 -0500</lastBuildDate>
     <generator>Jekyll v3.6.0</generator>
+    
+      <item>
+        <title>Using Jupyter Notebook on Server</title>
+        <description>&lt;h2 id=&quot;why-use-jupyter-notebook-on-server&quot;&gt;Why Use Jupyter Notebook on Server&lt;/h2&gt;
+
+&lt;p&gt;When you are working on large data set or need extra computing power, you may need to do the work remotely on a server. For students, since you have access to AWS educate, you should definitely take advantage of it.&lt;/p&gt;
+
+&lt;h2 id=&quot;steps&quot;&gt;Steps&lt;/h2&gt;
+
+&lt;h3 id=&quot;on-the-server&quot;&gt;On the Server&lt;/h3&gt;
+
+&lt;p&gt;First, you may want to set up a password for your notebook. For detailed instruction, you can look up &lt;a href=&quot;http://jupyter-notebook.readthedocs.io/en/stable/public_server.html#notebook-server-security&quot;&gt;here&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;If you are looking for a quick set up, you can follow these steps:&lt;/p&gt;
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;jupyter notebook &lt;span class=&quot;nt&quot;&gt;--generate-config&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;p&gt;Then you can create your password by&lt;/p&gt;
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;jupyter notebook password
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;After setting up password, start a jupyter notebook in no browser mode, and specify a port you like. For example,&lt;/p&gt;
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;jupyter notebook &lt;span class=&quot;nt&quot;&gt;--no-browser&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;--port&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;8889
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;p&gt;Of course, you can replace 8889 with any port you like, just make sure there is no clash.&lt;br /&gt;
+If you plan to run the notebook for long period of time, you can run your notebook without hangup&lt;/p&gt;
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;nohup jupyter notebook --no-browser --port=8889
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;p&gt;In this way, your notebook will keep running even if you log out of the server.&lt;/p&gt;
+
+&lt;h3 id=&quot;on-local-machine&quot;&gt;On Local Machine&lt;/h3&gt;
+&lt;p&gt;Now you need to connect to your notebook from your local machine.&lt;br /&gt;
+You need to create a ssh tunnel to your server and bind your notebook port to a specified local port. Continuing from the previous example, on your local machine,&lt;/p&gt;
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;ssh &lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;USER]@[SERVER] &lt;span class=&quot;nt&quot;&gt;-L&lt;/span&gt; 8889:localhost:8888 &lt;span class=&quot;nt&quot;&gt;-N&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;p&gt;where [USER] is your user name, and [SERVER] is your server’s address.&lt;br /&gt;
+Now you can launch jupyter notebook as usual, by typing ‘localhost:8888’ in your favorite browser.&lt;/p&gt;
+
+&lt;h3 id=&quot;to-kill-the-jupyter-notebok-process&quot;&gt;To Kill the Jupyter Notebok Process&lt;/h3&gt;
+&lt;p&gt;Since we launched jupyter notebook with &lt;code class=&quot;highlighter-rouge&quot;&gt;nohup&lt;/code&gt;, you can do the following to kill the jupyter notebook process.&lt;/p&gt;
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;netstat &lt;span class=&quot;nt&quot;&gt;-tulpn&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;p&gt;Then &lt;code class=&quot;highlighter-rouge&quot;&gt;kill&lt;/code&gt; the pid with python.&lt;/p&gt;
+</description>
+        <pubDate>Mon, 06 Nov 2017 07:00:00 -0500</pubDate>
+        <link>http://localhost:4000/2017/11/06/Using-Jupyter-Notebook-Remotely/</link>
+        <guid isPermaLink="true">http://localhost:4000/2017/11/06/Using-Jupyter-Notebook-Remotely/</guid>
+        
+        <category>solution</category>
+        
+        
+      </item>
     
       <item>
         <title>This is a Test</title>
@@ -34,8 +85,8 @@ A &amp; = \frac{\pi r^2}{2} \\
 \end{equation} %]]&gt;&lt;/script&gt;&lt;/p&gt;
 </description>
         <pubDate>Sun, 05 Nov 2017 07:00:00 -0500</pubDate>
-        <link>http://localhost:4000/huxblog-boilerplate/2017/11/05/test/</link>
-        <guid isPermaLink="true">http://localhost:4000/huxblog-boilerplate/2017/11/05/test/</guid>
+        <link>http://localhost:4000/2017/11/05/test/</link>
+        <guid isPermaLink="true">http://localhost:4000/2017/11/05/test/</guid>
         
         <category>test</category>
         
