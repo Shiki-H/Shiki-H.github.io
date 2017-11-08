@@ -2,7 +2,7 @@
 layout:     post
 title:      "Stacking with Bayesian Optimization"
 subtitle:   ""
-date:       2017-11-08 12:00:00
+date:       2017-11-08 07:00:00
 author:     "Shiki"
 header-img: "img/default.jpg"
 mathjax: true
