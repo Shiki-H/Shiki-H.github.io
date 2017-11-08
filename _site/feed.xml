@@ -5,8 +5,8 @@
     <description></description>
     <link>http://localhost:4000/</link>
     <atom:link href="http://localhost:4000/feed.xml" rel="self" type="application/rss+xml" />
-    <pubDate>Wed, 08 Nov 2017 16:43:07 -0500</pubDate>
-    <lastBuildDate>Wed, 08 Nov 2017 16:43:07 -0500</lastBuildDate>
+    <pubDate>Wed, 08 Nov 2017 16:49:25 -0500</pubDate>
+    <lastBuildDate>Wed, 08 Nov 2017 16:49:25 -0500</lastBuildDate>
     <generator>Jekyll v3.6.0</generator>
     
       <item>
@@ -479,7 +479,7 @@
 
 &lt;p&gt;The aim of this template is to provide a quick startup on setting up a stacking ensemble with bayesian optimization. Based on my work experience in fraud detection, finding the right feature is much more important than building a fancy model. As the saying goes, &lt;em&gt;garbage in, garbage out&lt;/em&gt;. I hope this template can save you some time in setting up models and tuning hyper-parameters so as to focus on understanding the problem.&lt;/p&gt;
 </description>
-        <pubDate>Wed, 08 Nov 2017 07:00:00 -0500</pubDate>
+        <pubDate>Wed, 08 Nov 2017 02:00:00 -0500</pubDate>
         <link>http://localhost:4000/2017/11/08/Stacking-Template/</link>
         <guid isPermaLink="true">http://localhost:4000/2017/11/08/Stacking-Template/</guid>
         
