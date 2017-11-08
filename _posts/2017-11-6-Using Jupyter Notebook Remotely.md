@@ -7,7 +7,7 @@ author:     "Shiki"
 header-img: "img/default.jpg"
 mathjax: true
 tags:
-    - solution
+    - jupyter
 ---
 ## Why Use Jupyter Notebook on Server
 
