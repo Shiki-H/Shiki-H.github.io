@@ -149,7 +149,7 @@ def BO_log(BO, name):
 
 #### Random Forest
 
-Since we are dealing with imbalanced data, we need to be careful in model training. In the past, my colleagues and I have tried every popular sampling methods (over-sampling, under-sampling, and SMOTE) but in the end we decided to adjust the class directly. There are a few advantages of this method: 1) it is easy to do; 2) it does not make any assumptions on the distribution of the features; 3) when it is not clear what weight you should assign to each class, you can treat it as a hyper-parameter and let machine do the work for you.  
+Since we are dealing with imbalanced data, we need to be careful in model training. In the past, my colleagues and I have tried every popular sampling methods (over-sampling, under-sampling, and SMOTE) but in the end we decided to adjust the class weight directly. There are a few advantages of this method: 1) it is easy to do; 2) it does not make any assumptions on the distribution of the features; 3) when it is not clear what weight you should assign to each class, you can treat it as a hyper-parameter and let machine do the work for you.  
 
 Regarding the metrics used for optimization, I am using f1 score since this was the judging criteria of the competition I participated in. Of course you can use any metric you wish, but keep in mind that when you are dealing imbalanced data, you have to be careful with your choice. 
 
