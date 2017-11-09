@@ -151,7 +151,6 @@ Before getting ready to draw the graph, we need to obtain the 3D coordinate of t
 layt = F.layout('kk', dim=3)
 ```
 
-For the following code, I referred to the official instructio
 ```python
 Edges = []
 for e in F.es:
