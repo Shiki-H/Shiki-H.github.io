@@ -566,4 +566,4 @@ print(f1_score(y_test, xgb_pred))
 
 ## Conclusion
 
-The aim of this template is to provide a quick startup on setting up a stacking ensemble with bayesian optimization. Based on my work experience in fraud detection, finding the right feature is much more important than building a fancy model. As the saying goes, *garbage in, garbage out*. I hope this template can save you some time in setting up models and tuning hyper-parameters so as to focus on understanding the problem.
+The aim of this template is to provide a quick set up of a stacking ensemble with bayesian optimization. Based on my work experience in fraud detection, finding the right features is much more important than building a fancy model. I believe that for most machine learning applications, the key to create the best model is thorough understanding of the problem so that one could figure out features that best describes the situation. I hope this template can save you some time in getting the model to work so that you can stay focused on the problem per se. 
