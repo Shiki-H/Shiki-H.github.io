@@ -8,6 +8,7 @@ header-img: "img/default.jpg"
 mathjax: true
 tags:
     - python
+    - machine learning
 ---
 
 ## Introduction
