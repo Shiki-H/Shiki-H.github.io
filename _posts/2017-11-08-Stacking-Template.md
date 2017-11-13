@@ -112,7 +112,7 @@ from xgboost import XGBClassifier
 
 For large data sets, tuning each base model can take a very long time. To prevent any accidental failure, I recommend saving the models (or to be more specific, the parameters of the models) immediately when the tuning is done. 
 
-To save and load your model, you can use sklearn's joblib.  
+To save and load your model, you can use sklearn's ```joblib```.  
 ```python
 # save model
 joblib.dump(model, filename)

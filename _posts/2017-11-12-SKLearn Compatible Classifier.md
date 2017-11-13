@@ -13,11 +13,11 @@ tags:
 
 ## Introduction
 
-```sklearn``` offers a variety of tools which allows quick set-up of machine learning piplines, and many other packages are also compatible with ```sklearn``` api. When there comes an occasion you have to implement your own algorithm, it is a good idea to make it the ```sklearn``` way (so you can leave hyper-parameter tuning to ```bayes_opt```)
+```sklearn``` offers a variety of tools which allows quick set-up of machine learning pipelines, and many other packages are also compatible with ```sklearn``` api. When there comes an occasion you have to implement your own algorithm, it is a good idea to make it the ```sklearn``` way (so you can leave hyper-parameter tuning to ```bayes_opt```)
 
 ## The Steps
 
-There are four essential components of a ```sklearn``` classifier: ```get_params```, ```set_params```, ```fit``` and ```predict```. The first two components can be easily accomplished by inherting from the ```BaseEstimator``` class from ```sklearn.base```. For classifiers, you should also inherit from ```ClassifierMixin``` to get support for ```model_selection.GridsearchCV``` and ```model_selection.cross_val_score```. Other supported types for machine learning are ```RegressorMixin``` and ```ClusterMixin```.   
+There are four essential components of a ```sklearn``` classifier: ```get_params```, ```set_params```, ```fit``` and ```predict```. The first two components can be easily accomplished by inheriting from the ```BaseEstimator``` class from ```sklearn.base```. For classifiers, you should also inherit from ```ClassifierMixin``` to get support for ```model_selection.GridsearchCV``` and ```model_selection.cross_val_score```. Other supported types for machine learning are ```RegressorMixin``` and ```ClusterMixin```.   
 
 I realized that there are quite a few posts on this topic, and I think the one by [Daniel](http://danielhnyk.cz/creating-your-own-estimator-scikit-learn/) is great, so I will not repeat the details here. In addition, the official [document](http://scikit-learn.org/dev/developers/contributing.html#rolling-your-own-estimator) also contains some instructions on the ```sklearn``` standard.  
 
