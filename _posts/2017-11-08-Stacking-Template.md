@@ -3,7 +3,7 @@ layout:     post
 title:      "Stacking with Bayesian Optimization"
 subtitle:   ""
 date:       2017-11-08 07:00:00
-author:     "Shiki"
+author:     "Siqi"
 header-img: "img/default.jpg"
 mathjax: true
 tags:

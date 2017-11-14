@@ -3,7 +3,7 @@ layout:     post
 title:      "Homemade sklearn Classifier"
 subtitle:   ""
 date:       2017-11-12 07:00:00
-author:     "Shiki"
+author:     "Siqi"
 header-img: "img/default.jpg"
 mathjax: true
 tags:

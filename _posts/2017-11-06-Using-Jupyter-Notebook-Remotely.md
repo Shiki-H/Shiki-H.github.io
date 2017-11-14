@@ -3,7 +3,7 @@ layout:     post
 title:      "Using Jupyter Notebook on Server"
 subtitle:   ""
 date:       2017-11-06 12:00:00
-author:     "Shiki"
+author:     "Siqi"
 header-img: "img/default.jpg"
 mathjax: true
 tags:

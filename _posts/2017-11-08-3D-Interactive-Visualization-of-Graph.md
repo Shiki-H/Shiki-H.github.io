@@ -3,7 +3,7 @@ layout:     post
 title:      "3D Interactive Visualization of Graph"
 subtitle:   ""
 date:       2017-11-08 01:00:00
-author:     "Shiki"
+author:     "Siqi"
 header-img: "img/default.jpg"
 mathjax: true
 tags:
