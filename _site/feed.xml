@@ -1,23 +1,23 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Shiki's Blog</title>
+    <title>Siqi's Page</title>
     <description></description>
     <link>http://localhost:4000/</link>
     <atom:link href="http://localhost:4000/feed.xml" rel="self" type="application/rss+xml" />
-    <pubDate>Mon, 13 Nov 2017 01:19:53 -0500</pubDate>
-    <lastBuildDate>Mon, 13 Nov 2017 01:19:53 -0500</lastBuildDate>
+    <pubDate>Tue, 14 Nov 2017 11:57:33 -0500</pubDate>
+    <lastBuildDate>Tue, 14 Nov 2017 11:57:33 -0500</lastBuildDate>
     <generator>Jekyll v3.6.0</generator>
     
       <item>
         <title>Homemade sklearn Classifier</title>
         <description>&lt;h2 id=&quot;introduction&quot;&gt;Introduction&lt;/h2&gt;
 
-&lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;sklearn&lt;/code&gt; offers a variety of tools which allows quick set-up of machine learning piplines, and many other packages are also compatible with &lt;code class=&quot;highlighter-rouge&quot;&gt;sklearn&lt;/code&gt; api. When there comes an occasion you have to implement your own algorithm, it is a good idea to make it the &lt;code class=&quot;highlighter-rouge&quot;&gt;sklearn&lt;/code&gt; way (so you can leave hyper-parameter tuning to &lt;code class=&quot;highlighter-rouge&quot;&gt;bayes_opt&lt;/code&gt;)&lt;/p&gt;
+&lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;sklearn&lt;/code&gt; offers a variety of tools which allows quick set-up of machine learning pipelines, and many other packages are also compatible with &lt;code class=&quot;highlighter-rouge&quot;&gt;sklearn&lt;/code&gt; api. When there comes an occasion you have to implement your own algorithm, it is a good idea to make it the &lt;code class=&quot;highlighter-rouge&quot;&gt;sklearn&lt;/code&gt; way (so you can leave hyper-parameter tuning to &lt;code class=&quot;highlighter-rouge&quot;&gt;bayes_opt&lt;/code&gt;)&lt;/p&gt;
 
 &lt;h2 id=&quot;the-steps&quot;&gt;The Steps&lt;/h2&gt;
 
-&lt;p&gt;There are four essential components of a &lt;code class=&quot;highlighter-rouge&quot;&gt;sklearn&lt;/code&gt; classifier: &lt;code class=&quot;highlighter-rouge&quot;&gt;get_params&lt;/code&gt;, &lt;code class=&quot;highlighter-rouge&quot;&gt;set_params&lt;/code&gt;, &lt;code class=&quot;highlighter-rouge&quot;&gt;fit&lt;/code&gt; and &lt;code class=&quot;highlighter-rouge&quot;&gt;predict&lt;/code&gt;. The first two components can be easily accomplished by inherting from the &lt;code class=&quot;highlighter-rouge&quot;&gt;BaseEstimator&lt;/code&gt; class from &lt;code class=&quot;highlighter-rouge&quot;&gt;sklearn.base&lt;/code&gt;. For classifiers, you should also inherit from &lt;code class=&quot;highlighter-rouge&quot;&gt;ClassifierMixin&lt;/code&gt; to get support for &lt;code class=&quot;highlighter-rouge&quot;&gt;model_selection.GridsearchCV&lt;/code&gt; and &lt;code class=&quot;highlighter-rouge&quot;&gt;model_selection.cross_val_score&lt;/code&gt;. Other supported types for machine learning are &lt;code class=&quot;highlighter-rouge&quot;&gt;RegressorMixin&lt;/code&gt; and &lt;code class=&quot;highlighter-rouge&quot;&gt;ClusterMixin&lt;/code&gt;.&lt;/p&gt;
+&lt;p&gt;There are four essential components of a &lt;code class=&quot;highlighter-rouge&quot;&gt;sklearn&lt;/code&gt; classifier: &lt;code class=&quot;highlighter-rouge&quot;&gt;get_params&lt;/code&gt;, &lt;code class=&quot;highlighter-rouge&quot;&gt;set_params&lt;/code&gt;, &lt;code class=&quot;highlighter-rouge&quot;&gt;fit&lt;/code&gt; and &lt;code class=&quot;highlighter-rouge&quot;&gt;predict&lt;/code&gt;. The first two components can be easily accomplished by inheriting from the &lt;code class=&quot;highlighter-rouge&quot;&gt;BaseEstimator&lt;/code&gt; class from &lt;code class=&quot;highlighter-rouge&quot;&gt;sklearn.base&lt;/code&gt;. For classifiers, you should also inherit from &lt;code class=&quot;highlighter-rouge&quot;&gt;ClassifierMixin&lt;/code&gt; to get support for &lt;code class=&quot;highlighter-rouge&quot;&gt;model_selection.GridsearchCV&lt;/code&gt; and &lt;code class=&quot;highlighter-rouge&quot;&gt;model_selection.cross_val_score&lt;/code&gt;. Other supported types for machine learning are &lt;code class=&quot;highlighter-rouge&quot;&gt;RegressorMixin&lt;/code&gt; and &lt;code class=&quot;highlighter-rouge&quot;&gt;ClusterMixin&lt;/code&gt;.&lt;/p&gt;
 
 &lt;p&gt;I realized that there are quite a few posts on this topic, and I think the one by &lt;a href=&quot;http://danielhnyk.cz/creating-your-own-estimator-scikit-learn/&quot;&gt;Daniel&lt;/a&gt; is great, so I will not repeat the details here. In addition, the official &lt;a href=&quot;http://scikit-learn.org/dev/developers/contributing.html#rolling-your-own-estimator&quot;&gt;document&lt;/a&gt; also contains some instructions on the &lt;code class=&quot;highlighter-rouge&quot;&gt;sklearn&lt;/code&gt; standard.&lt;/p&gt;
 
@@ -107,7 +107,7 @@
     &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;U&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[:,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;maxit&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt;
 
 
-&lt;span class=&quot;k&quot;&gt;class&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;ConvexsplitClassifier&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;BaseEstimator&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;):&lt;/span&gt;
+&lt;span class=&quot;k&quot;&gt;class&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;ConvexsplitClassifier&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;BaseEstimator&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;ClassifierMixin&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;):&lt;/span&gt;
     &lt;span class=&quot;c&quot;&gt;# This is the sklearn style interface&lt;/span&gt;
     
     &lt;span class=&quot;k&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;__init__&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;bp&quot;&gt;self&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;tau&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;mf&quot;&gt;0.3&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;c&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;epsilon&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;2&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;maxit&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;500&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;):&lt;/span&gt;
@@ -164,6 +164,8 @@
         <guid isPermaLink="true">http://localhost:4000/2017/11/12/SKLearn-Compatible-Classifier/</guid>
         
         <category>python</category>
+        
+        <category>machine learning</category>
         
         
       </item>
@@ -259,7 +261,7 @@
 
 &lt;p&gt;For large data sets, tuning each base model can take a very long time. To prevent any accidental failure, I recommend saving the models (or to be more specific, the parameters of the models) immediately when the tuning is done.&lt;/p&gt;
 
-&lt;p&gt;To save and load your model, you can use sklearn’s joblib.&lt;/p&gt;
+&lt;p&gt;To save and load your model, you can use sklearn’s &lt;code class=&quot;highlighter-rouge&quot;&gt;joblib&lt;/code&gt;.&lt;/p&gt;
 &lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;c&quot;&gt;# save model&lt;/span&gt;
 &lt;span class=&quot;n&quot;&gt;joblib&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;dump&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;model&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;filename&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
 
@@ -636,13 +638,15 @@
 
 &lt;h2 id=&quot;conclusion&quot;&gt;Conclusion&lt;/h2&gt;
 
-&lt;p&gt;The aim of this template is to provide a quick startup on setting up a stacking ensemble with bayesian optimization. Based on my work experience in fraud detection, finding the right feature is much more important than building a fancy model. As the saying goes, &lt;em&gt;garbage in, garbage out&lt;/em&gt;. I hope this template can save you some time in setting up models and tuning hyper-parameters so as to focus on understanding the problem.&lt;/p&gt;
+&lt;p&gt;The aim of this template is to provide a quick set up of a stacking ensemble with bayesian optimization. Based on my work experience in fraud detection, finding the right features is much more important than building a fancy model. I believe that for most machine learning applications, the key to create the best model is thorough understanding of the problem so that one could figure out features that best describes the situation. I hope this template can save you some time in getting the model to work so that you can stay focused on the problem per se.&lt;/p&gt;
 </description>
         <pubDate>Wed, 08 Nov 2017 02:00:00 -0500</pubDate>
         <link>http://localhost:4000/2017/11/08/Stacking-Template/</link>
         <guid isPermaLink="true">http://localhost:4000/2017/11/08/Stacking-Template/</guid>
         
         <category>python</category>
+        
+        <category>machine learning</category>
         
         
       </item>

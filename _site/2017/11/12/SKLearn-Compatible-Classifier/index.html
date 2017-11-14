@@ -62,7 +62,7 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand" href="/">Shiki's Blog</a>
+            <a class="navbar-brand" href="/">Siqi's Page</a>
         </div>
 
         <!-- Collect the nav links, forms, and other content for toggling -->
@@ -164,13 +164,15 @@
                         
                         <a class="tag" href="/tags/#python" title="python">python</a>
                         
+                        <a class="tag" href="/tags/#machine learning" title="machine learning">machine learning</a>
+                        
                     </div>
                     <h1>Homemade sklearn Classifier</h1>
                     
                     
                     <h2 class="subheading"></h2>
                     
-                    <span class="meta">Posted by Shiki on November 12, 2017</span>
+                    <span class="meta">Posted by Siqi on November 12, 2017</span>
                 </div>
             </div>
         </div>
@@ -190,11 +192,11 @@
 
 				<h2 id="introduction">Introduction</h2>
 
-<p><code class="highlighter-rouge">sklearn</code> offers a variety of tools which allows quick set-up of machine learning piplines, and many other packages are also compatible with <code class="highlighter-rouge">sklearn</code> api. When there comes an occasion you have to implement your own algorithm, it is a good idea to make it the <code class="highlighter-rouge">sklearn</code> way (so you can leave hyper-parameter tuning to <code class="highlighter-rouge">bayes_opt</code>)</p>
+<p><code class="highlighter-rouge">sklearn</code> offers a variety of tools which allows quick set-up of machine learning pipelines, and many other packages are also compatible with <code class="highlighter-rouge">sklearn</code> api. When there comes an occasion you have to implement your own algorithm, it is a good idea to make it the <code class="highlighter-rouge">sklearn</code> way (so you can leave hyper-parameter tuning to <code class="highlighter-rouge">bayes_opt</code>)</p>
 
 <h2 id="the-steps">The Steps</h2>
 
-<p>There are four essential components of a <code class="highlighter-rouge">sklearn</code> classifier: <code class="highlighter-rouge">get_params</code>, <code class="highlighter-rouge">set_params</code>, <code class="highlighter-rouge">fit</code> and <code class="highlighter-rouge">predict</code>. The first two components can be easily accomplished by inherting from the <code class="highlighter-rouge">BaseEstimator</code> class from <code class="highlighter-rouge">sklearn.base</code>. For classifiers, you should also inherit from <code class="highlighter-rouge">ClassifierMixin</code> to get support for <code class="highlighter-rouge">model_selection.GridsearchCV</code> and <code class="highlighter-rouge">model_selection.cross_val_score</code>. Other supported types for machine learning are <code class="highlighter-rouge">RegressorMixin</code> and <code class="highlighter-rouge">ClusterMixin</code>.</p>
+<p>There are four essential components of a <code class="highlighter-rouge">sklearn</code> classifier: <code class="highlighter-rouge">get_params</code>, <code class="highlighter-rouge">set_params</code>, <code class="highlighter-rouge">fit</code> and <code class="highlighter-rouge">predict</code>. The first two components can be easily accomplished by inheriting from the <code class="highlighter-rouge">BaseEstimator</code> class from <code class="highlighter-rouge">sklearn.base</code>. For classifiers, you should also inherit from <code class="highlighter-rouge">ClassifierMixin</code> to get support for <code class="highlighter-rouge">model_selection.GridsearchCV</code> and <code class="highlighter-rouge">model_selection.cross_val_score</code>. Other supported types for machine learning are <code class="highlighter-rouge">RegressorMixin</code> and <code class="highlighter-rouge">ClusterMixin</code>.</p>
 
 <p>I realized that there are quite a few posts on this topic, and I think the one by <a href="http://danielhnyk.cz/creating-your-own-estimator-scikit-learn/">Daniel</a> is great, so I will not repeat the details here. In addition, the official <a href="http://scikit-learn.org/dev/developers/contributing.html#rolling-your-own-estimator">document</a> also contains some instructions on the <code class="highlighter-rouge">sklearn</code> standard.</p>
 
@@ -284,7 +286,7 @@
     <span class="k">return</span> <span class="n">U</span><span class="p">[:,</span> <span class="n">maxit</span><span class="p">]</span>
 
 
-<span class="k">class</span> <span class="nc">ConvexsplitClassifier</span><span class="p">(</span><span class="n">BaseEstimator</span><span class="p">):</span>
+<span class="k">class</span> <span class="nc">ConvexsplitClassifier</span><span class="p">(</span><span class="n">BaseEstimator</span><span class="p">,</span> <span class="n">ClassifierMixin</span><span class="p">):</span>
     <span class="c"># This is the sklearn style interface</span>
     
     <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">tau</span><span class="o">=</span><span class="mf">0.3</span><span class="p">,</span> <span class="n">c</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">epsilon</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">maxit</span><span class="o">=</span><span class="mi">500</span><span class="p">):</span>
@@ -435,7 +437,7 @@
                     
                 </ul>
                 <p class="copyright text-muted">
-                    Copyright &copy; Shiki's Blog 2017
+                    Copyright &copy; Siqi's Page 2017
                     <br>
                     Theme by <a href="http://huangxuan.me">Hux</a> |
                     <iframe
