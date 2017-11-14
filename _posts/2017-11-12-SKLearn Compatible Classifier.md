@@ -108,7 +108,7 @@ def _convexsplit(eigenvectors, eigenvalues, u0, train_size, c=1, epsilon=2, maxi
     return U[:, maxit]
 
 
-class ConvexsplitClassifier(BaseEstimator):
+class ConvexsplitClassifier(BaseEstimator, ClassifierMixin):
     # This is the sklearn style interface
     
     def __init__(self, tau=0.3, c=1, epsilon=2, maxit=500):
