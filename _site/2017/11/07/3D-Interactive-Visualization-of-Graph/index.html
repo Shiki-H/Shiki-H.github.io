@@ -1,194 +1,395 @@
-<!DOCTYPE html>
-<html lang="en">
 
+<!doctype html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<html class="theme-next mist" lang="en">
 <head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="google-site-verification" content="xBT4GhYoi5qRD5tr338pgPM5OWHHIDR6mNg1a3euekI" />
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="description" content="">
-    <meta name="keyword"  content="">
-    <link rel="shortcut icon" href="/img/favicon.ico">
-
-    <title>3D Interactive Visualization of Graph - </title>
-
-    <link rel="canonical" href="http://localhost:4000/2017/11/07/3D-Interactive-Visualization-of-Graph/">
-
-    <!-- Bootstrap Core CSS -->
-    <link rel="stylesheet" href="/css/bootstrap.min.css">
-
-    <!-- Custom CSS -->
-    <link rel="stylesheet" href="/css/hux-blog.min.css">
-
-    <!-- Pygments Github CSS -->
-    <link rel="stylesheet" href="/css/syntax.css">
-
-    <!-- Custom Fonts -->
-    <!-- <link href="http://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet" type="text/css"> -->
-    <!-- Hux change font-awesome CDN to qiniu -->
-    <link href="http://cdn.staticfile.org/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
 
 
-    <!-- Hux Delete, sad but pending in China
-    <link href='http://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
-    <link href='http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/
-    css'>
-    -->
 
 
-    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
-    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
-    <!--[if lt IE 9]>
-        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
-        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
-    <![endif]-->
 
-    <!-- ga & ba script hoook -->
-    <script></script>
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/assets/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/assets/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/assets/css/main.css?v=5.1.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="python," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/assets/favicon.ico?v=5.1.1" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="Required Packages">
+<meta name="keywords" content="python">
+<meta property="og:type" content="article">
+<meta property="og:title" content="3D Interactive Visualization of Graph">
+<meta property="og:url" content="http://localhost:4000/2017/11/07/3D-Interactive-Visualization-of-Graph/">
+<meta property="og:site_name" content="Random Notes">
+<meta property="og:description" content="Required Packages">
+<meta property="og:locale" content="en">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="3D Interactive Visualization of Graph">
+<meta name="twitter:description" content="Required Packages">
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '',
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    fancybox: true,
+    motion: false,
+    duoshuo: {
+      userId: '0',
+      author: 'Author'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://localhost:4000/"/>
+
+
+
+
+
+  <title>3D Interactive Visualization of Graph | Random Notes</title>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 </head>
 
+<body itemscope itemtype="http://schema.org/WebPage" lang="en">
 
-<!-- hack iOS CSS :active style -->
-<body ontouchstart="">
+  
+  
 
-    <!-- Navigation -->
-<nav class="navbar navbar-default navbar-custom navbar-fixed-top">
-    <div class="container-fluid">
-        <!-- Brand and toggle get grouped for better mobile display -->
-        <div class="navbar-header page-scroll">
-            <button type="button" class="navbar-toggle">
-                <span class="sr-only">Toggle navigation</span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-            </button>
-            <a class="navbar-brand" href="/">Siqi's Page</a>
-        </div>
+  <div class="container sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
 
-        <!-- Collect the nav links, forms, and other content for toggling -->
-        <!-- Known Issue, found by Hux:
-            <nav>'s height woule be hold on by its content.
-            so, when navbar scale out, the <nav> will cover tags.
-            also mask any touch event of tags, unfortunately.
-        -->
-        <div id="huxblog_navbar">
-            <div class="navbar-collapse">
-                <ul class="nav navbar-nav navbar-right">
-                    <li>
-                        <a href="/">Home</a>
-                    </li>
-                    
-                    <li>
-                        <a href="/about/">About</a>
-                    </li>
-                    
-                    <li>
-                        <a href="/tags/">Tags</a>
-                    </li>
-                    
-                </ul>
-            </div>
-        </div>
-        <!-- /.navbar-collapse -->
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"> <div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Random Notes</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
     </div>
-    <!-- /.container -->
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            Home
+          </a>
+        </li>
+      
+        
+        
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            About
+          </a>
+        </li>
+      
+        
+        
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            Archives
+          </a>
+        </li>
+      
+        
+        
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            Tags
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
 </nav>
-<script>
-    // Drop Bootstarp low-performance Navbar
-    // Use customize navbar with high-quality material design animation
-    // in high-perf jank-free CSS3 implementation
-    var $body   = document.body;
-    var $toggle = document.querySelector('.navbar-toggle');
-    var $navbar = document.querySelector('#huxblog_navbar');
-    var $collapse = document.querySelector('.navbar-collapse');
-
-    $toggle.addEventListener('click', handleMagic)
-    function handleMagic(e){
-        if ($navbar.className.indexOf('in') > 0) {
-        // CLOSE
-            $navbar.className = " ";
-            // wait until animation end.
-            setTimeout(function(){
-                // prevent frequently toggle
-                if($navbar.className.indexOf('in') < 0) {
-                    $collapse.style.height = "0px"
-                }
-            },400)
-        }else{
-        // OPEN
-            $collapse.style.height = "auto"
-            $navbar.className += " in";
-        }
-    }
-</script>
 
 
-    <!-- Image to hack wechat -->
-<!-- <img src="/img/icon_wechat.png" width="0" height="0"> -->
-<!-- <img src="/img/default.jpg" width="0" height="0"> -->
 
-<!-- Post Header -->
+ </div>
+    </header>
 
-<script type="text/x-mathjax-config">
-  MathJax.Hub.Config({
-    tex2jax: {
-      inlineMath: [ ['$','$'], ["\\(","\\)"] ],
-      processEscapes: true
-    }
-  });
-</script>
-<script
-  type="text/javascript"
-  charset="utf-8"
-  src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"
->
-</script>
-<script
-  type="text/javascript"
-  charset="utf-8"
-  src="https://vincenttam.github.io/javascripts/MathJaxLocal.js"
->
-</script>
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        inlineMath: [['$','$'], ['\\(','\\)']],
+        processEscapes: true
+      }
+    });
+    </script>
+    <script src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML" type="text/javascript"></script>
 
-<style type="text/css">
-    header.intro-header{
-        background-image: url('/img/default.jpg')
-    }
-</style>
-<header class="intro-header" >
-    <div class="container">
-        <div class="row">
-            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
-                <div class="post-heading">
-                    <div class="tags">
-                        
-                        <a class="tag" href="/tags/#python" title="python">python</a>
-                        
-                    </div>
-                    <h1>3D Interactive Visualization of Graph</h1>
+
+<div id="posts" class="posts-expand">
+  
+  
+
+  
+
+  
+  
+  
+
+  <article class="post post-type- " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://localhost:4000/2017/11/07/3D-Interactive-Visualization-of-Graph/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Shiki">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="assets/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Random Notes">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+          
+          
+            3D Interactive Visualization of Graph
+          
+        </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-11-07T20:00:00-05:00">
+                2017-11-07
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+            
+                <div class="post-description">
                     
-                    
-                    <h2 class="subheading"></h2>
-                    
-                    <span class="meta">Posted by Siqi on November 7, 2017</span>
                 </div>
-            </div>
+            
+          
+
         </div>
-    </div>
-</header>
+      </header>
+    
 
-<!-- Post Content -->
-<article>
-    <div class="container">
-        <div class="row">
+    <div class="post-body" itemprop="articleBody">
 
-    <!-- Post Container -->
-            <div class="
-                col-lg-8 col-lg-offset-2
-                col-md-10 col-md-offset-1
-                post-container">
+      
+      
 
-				<h2 id="required-packages">Required Packages</h2>
+      
+        
+  
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  <h2 id="required-packages">Required Packages</h2>
 
 <p>This short demo uses the following packages: plotly, networkx, and igraph, which can be installed with <code class="highlighter-rouge">pip</code>.</p>
 
@@ -197,9 +398,10 @@
 <h3 id="data-preview">Data Preview</h3>
 <p>I am using a sample data set generated by random numbers. By the way, I have uploaded sample data and ipython notebook of this demo <a href="https://github.com/Shiki-H/graph-visualization-demo">here</a>.</p>
 
-<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s">'sample.csv'</span><span class="p">)</span>
+<div class="language-python highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1<br/>2</pre></td><td class="code"><pre class="highlight"><code><span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s">'sample.csv'</span><span class="p">)</span>
 <span class="n">df</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
-</code></pre></div></div>
+</code></pre></td></tr></tbody></table></div>
+</div>
 
 <div>
 <style>
@@ -265,7 +467,7 @@
 
 <p>For simple illustration, I am building a non-directed graph using the number of connections between sender and receiver as weight. I removed edges with weight 1 since they are not very interesting.</p>
 
-<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Data Preparation</span>
+<div class="language-python highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1<br/>2<br/>3<br/>4<br/>5<br/>6<br/>7<br/>8<br/>9<br/>10<br/>11<br/>12</pre></td><td class="code"><pre class="highlight"><code><span class="c"># Data Preparation</span>
 <span class="n">df_id</span> <span class="o">=</span> <span class="n">df</span><span class="p">[[</span><span class="s">'receiver'</span><span class="p">,</span> <span class="s">'sender'</span><span class="p">]]</span>
 <span class="n">df_id</span> <span class="o">=</span> <span class="n">df_id</span><span class="o">.</span><span class="n">groupby</span><span class="p">([</span><span class="s">'receiver'</span><span class="p">,</span> <span class="s">'sender'</span><span class="p">])</span><span class="o">.</span><span class="n">agg</span><span class="p">({</span><span class="s">'sender'</span><span class="p">:</span><span class="s">'count'</span><span class="p">})</span>
 <span class="n">df_id</span><span class="o">.</span><span class="n">columns</span> <span class="o">=</span> <span class="p">[</span><span class="s">'count'</span><span class="p">]</span>
@@ -277,21 +479,24 @@
 <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">mat_id</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]):</span>
     <span class="k">if</span> <span class="n">mat_id</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="mi">2</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
         <span class="n">G</span><span class="o">.</span><span class="n">add_edge</span><span class="p">(</span><span class="n">mat_id</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">mat_id</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="n">weight</span><span class="o">=</span><span class="n">mat_id</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="mi">2</span><span class="p">])</span>
-</code></pre></div></div>
+</code></pre></td></tr></tbody></table></div>
+</div>
 
 <p>Here we will save <code class="highlighter-rouge">G</code> to gml file for later use.</p>
-<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">from</span> <span class="nn">networkx.readwrite</span> <span class="kn">import</span> <span class="n">gml</span>
+<div class="language-python highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1<br/>2</pre></td><td class="code"><pre class="highlight"><code><span class="kn">from</span> <span class="nn">networkx.readwrite</span> <span class="kn">import</span> <span class="n">gml</span>
 <span class="n">gml</span><span class="o">.</span><span class="n">write_gml</span><span class="p">(</span><span class="n">G</span><span class="p">,</span> <span class="s">'graph.gml'</span><span class="p">)</span>
-</code></pre></div></div>
+</code></pre></td></tr></tbody></table></div>
+</div>
 
 <h2 id="graph-analysis">Graph Analysis</h2>
 
 <p>We use the louvian algorithm to perform some simple community discovery on the graph we just built.</p>
-<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">community</span>
+<div class="language-python highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1<br/>2<br/>3</pre></td><td class="code"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">community</span>
 <span class="n">partition</span> <span class="o">=</span> <span class="n">community</span><span class="o">.</span><span class="n">best_partition</span><span class="p">(</span><span class="n">G</span><span class="p">)</span>
 <span class="n">df_partition</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="o">.</span><span class="n">from_dict</span><span class="p">(</span><span class="n">partition</span><span class="p">,</span> <span class="n">orient</span><span class="o">=</span><span class="s">'index'</span><span class="p">)</span>
-</code></pre></div></div>
-<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># reformat partition for later use</span>
+</code></pre></td></tr></tbody></table></div>
+</div>
+<div class="language-python highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1<br/>2<br/>3<br/>4<br/>5<br/>6<br/>7<br/>8<br/>9</pre></td><td class="code"><pre class="highlight"><code><span class="c"># reformat partition for later use</span>
 <span class="n">df_partition</span><span class="o">.</span><span class="n">reset_index</span><span class="p">(</span><span class="n">inplace</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
 <span class="n">df_partition</span><span class="o">.</span><span class="n">columns</span> <span class="o">=</span> <span class="p">[[</span><span class="s">'id'</span><span class="p">,</span> <span class="s">'group'</span><span class="p">]]</span>
 
@@ -300,28 +505,32 @@
 <span class="n">group_list</span> <span class="o">=</span> <span class="p">[]</span>
 <span class="k">for</span> <span class="n">members</span> <span class="ow">in</span> <span class="n">df_group</span><span class="p">[</span><span class="mi">0</span><span class="p">]:</span>
     <span class="n">group_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="nb">frozenset</span><span class="p">(</span><span class="n">members</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s">','</span><span class="p">)))</span>
-</code></pre></div></div>
+</code></pre></td></tr></tbody></table></div>
+</div>
 
 <h2 id="visualization">Visualization</h2>
 
 <p>We will need iGraph and plotly for 3D visualization. Note that we need to run plotly in offline mode.</p>
 
-<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">igraph</span> <span class="k">as</span> <span class="n">ig</span>
+<div class="language-python highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1<br/>2<br/>3<br/>4<br/>5</pre></td><td class="code"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">igraph</span> <span class="kn">as</span> <span class="nn">ig</span>
 <span class="kn">import</span> <span class="nn">plotly</span>
-<span class="kn">import</span> <span class="nn">plotly.offline</span> <span class="k">as</span> <span class="n">offline</span>
-<span class="kn">import</span> <span class="nn">plotly.graph_objs</span> <span class="k">as</span> <span class="n">go</span>
+<span class="kn">import</span> <span class="nn">plotly.offline</span> <span class="kn">as</span> <span class="nn">offline</span>
+<span class="kn">import</span> <span class="nn">plotly.graph_objs</span> <span class="kn">as</span> <span class="nn">go</span>
 <span class="n">offline</span><span class="o">.</span><span class="n">init_notebook_mode</span><span class="p">()</span>
-</code></pre></div></div>
+</code></pre></td></tr></tbody></table></div>
+</div>
 <p>We need to load the graph <code class="highlighter-rouge">G</code> to an iGraph object, which can be easily done by loading the gml file we have saved.</p>
-<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">F</span> <span class="o">=</span> <span class="n">ig</span><span class="o">.</span><span class="n">Graph</span><span class="o">.</span><span class="n">Read_GML</span><span class="p">(</span><span class="s">'graph.gml'</span><span class="p">)</span>
-</code></pre></div></div>
+<div class="language-python highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1</pre></td><td class="code"><pre class="highlight"><code><span class="n">F</span> <span class="o">=</span> <span class="n">ig</span><span class="o">.</span><span class="n">Graph</span><span class="o">.</span><span class="n">Read_GML</span><span class="p">(</span><span class="s">'graph.gml'</span><span class="p">)</span>
+</code></pre></td></tr></tbody></table></div>
+</div>
 
 <p>Before getting ready to draw the graph, we need to obtain the 3D coordinate of the nodes, and here is why I am using iGraph instead of networkx, since networkx has a poor support for 3D graph. For simplicity, I followed the instructions on plotly official website, which can be found <a href="https://plot.ly/python/3d-network-graph/">here</a></p>
 
-<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">layt</span> <span class="o">=</span> <span class="n">F</span><span class="o">.</span><span class="n">layout</span><span class="p">(</span><span class="s">'kk'</span><span class="p">,</span> <span class="n">dim</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
-</code></pre></div></div>
+<div class="language-python highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1</pre></td><td class="code"><pre class="highlight"><code><span class="n">layt</span> <span class="o">=</span> <span class="n">F</span><span class="o">.</span><span class="n">layout</span><span class="p">(</span><span class="s">'kk'</span><span class="p">,</span> <span class="n">dim</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
+</code></pre></td></tr></tbody></table></div>
+</div>
 
-<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">Edges</span> <span class="o">=</span> <span class="p">[]</span>
+<div class="language-python highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1<br/>2<br/>3<br/>4<br/>5<br/>6<br/>7<br/>8<br/>9<br/>10<br/>11<br/>12<br/>13<br/>14<br/>15<br/>16<br/>17<br/>18<br/>19<br/>20<br/>21</pre></td><td class="code"><pre class="highlight"><code><span class="n">Edges</span> <span class="o">=</span> <span class="p">[]</span>
 <span class="k">for</span> <span class="n">e</span> <span class="ow">in</span> <span class="n">F</span><span class="o">.</span><span class="n">es</span><span class="p">:</span>
     <span class="n">Edges</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">e</span><span class="o">.</span><span class="nb">tuple</span><span class="p">)</span>
 
@@ -342,13 +551,15 @@
     <span class="n">Xe</span><span class="o">+=</span><span class="p">[</span><span class="n">layt</span><span class="p">[</span><span class="n">e</span><span class="p">[</span><span class="mi">0</span><span class="p">]][</span><span class="mi">0</span><span class="p">],</span><span class="n">layt</span><span class="p">[</span><span class="n">e</span><span class="p">[</span><span class="mi">1</span><span class="p">]][</span><span class="mi">0</span><span class="p">],</span> <span class="bp">None</span><span class="p">]</span><span class="c"># x-coordinates of edge ends</span>
     <span class="n">Ye</span><span class="o">+=</span><span class="p">[</span><span class="n">layt</span><span class="p">[</span><span class="n">e</span><span class="p">[</span><span class="mi">0</span><span class="p">]][</span><span class="mi">1</span><span class="p">],</span><span class="n">layt</span><span class="p">[</span><span class="n">e</span><span class="p">[</span><span class="mi">1</span><span class="p">]][</span><span class="mi">1</span><span class="p">],</span> <span class="bp">None</span><span class="p">]</span>
     <span class="n">Ze</span><span class="o">+=</span><span class="p">[</span><span class="n">layt</span><span class="p">[</span><span class="n">e</span><span class="p">[</span><span class="mi">0</span><span class="p">]][</span><span class="mi">2</span><span class="p">],</span><span class="n">layt</span><span class="p">[</span><span class="n">e</span><span class="p">[</span><span class="mi">1</span><span class="p">]][</span><span class="mi">2</span><span class="p">],</span> <span class="bp">None</span><span class="p">]</span>
-</code></pre></div></div>
+</code></pre></td></tr></tbody></table></div>
+</div>
 
-<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">plotly.plotly</span> <span class="k">as</span> <span class="n">py</span>
+<div class="language-python highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1<br/>2</pre></td><td class="code"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">plotly.plotly</span> <span class="kn">as</span> <span class="nn">py</span>
 <span class="kn">from</span> <span class="nn">plotly.graph_objs</span> <span class="kn">import</span> <span class="o">*</span>
-</code></pre></div></div>
+</code></pre></td></tr></tbody></table></div>
+</div>
 
-<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">trace1</span><span class="o">=</span><span class="n">Scatter3d</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">Xe</span><span class="p">,</span>
+<div class="language-python highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1<br/>2<br/>3<br/>4<br/>5<br/>6<br/>7<br/>8<br/>9<br/>10<br/>11<br/>12<br/>13<br/>14<br/>15<br/>16<br/>17<br/>18<br/>19<br/>20<br/>21</pre></td><td class="code"><pre class="highlight"><code><span class="n">trace1</span><span class="o">=</span><span class="n">Scatter3d</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">Xe</span><span class="p">,</span>
                <span class="n">y</span><span class="o">=</span><span class="n">Ye</span><span class="p">,</span>
                <span class="n">z</span><span class="o">=</span><span class="n">Ze</span><span class="p">,</span>
                <span class="n">mode</span><span class="o">=</span><span class="s">'lines'</span><span class="p">,</span>
@@ -369,18 +580,20 @@
                <span class="n">text</span><span class="o">=</span><span class="n">labels</span><span class="p">,</span>
                <span class="n">hoverinfo</span><span class="o">=</span><span class="s">'text'</span>
                <span class="p">)</span>
-</code></pre></div></div>
+</code></pre></td></tr></tbody></table></div>
+</div>
 
-<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">axis</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span><span class="n">showbackground</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span>
+<div class="language-python highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1<br/>2<br/>3<br/>4<br/>5<br/>6<br/>7</pre></td><td class="code"><pre class="highlight"><code><span class="n">axis</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span><span class="n">showbackground</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span>
           <span class="n">showline</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span>
           <span class="n">zeroline</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span>
           <span class="n">showgrid</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span>
           <span class="n">showticklabels</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span>
           <span class="n">title</span><span class="o">=</span><span class="s">''</span>
           <span class="p">)</span>
-</code></pre></div></div>
+</code></pre></td></tr></tbody></table></div>
+</div>
 
-<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">layout</span> <span class="o">=</span> <span class="n">Layout</span><span class="p">(</span>
+<div class="language-python highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1<br/>2<br/>3<br/>4<br/>5<br/>6<br/>7<br/>8<br/>9<br/>10<br/>11<br/>12<br/>13<br/>14<br/>15<br/>16<br/>17<br/>18<br/>19<br/>20<br/>21<br/>22<br/>23<br/>24<br/>25<br/>26<br/>27<br/>28<br/>29</pre></td><td class="code"><pre class="highlight"><code><span class="n">layout</span> <span class="o">=</span> <span class="n">Layout</span><span class="p">(</span>
          <span class="n">title</span><span class="o">=</span><span class="s">"Network of Communications Weighted by Connection (3D visualization)"</span><span class="p">,</span>
          <span class="n">width</span><span class="o">=</span><span class="mi">1000</span><span class="p">,</span>
          <span class="n">height</span><span class="o">=</span><span class="mi">1000</span><span class="p">,</span>
@@ -409,12 +622,14 @@
             <span class="p">)</span>
             <span class="p">)</span>
         <span class="p">]),</span>    <span class="p">)</span>
-</code></pre></div></div>
+</code></pre></td></tr></tbody></table></div>
+</div>
 
-<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">data</span><span class="o">=</span><span class="n">Data</span><span class="p">([</span><span class="n">trace1</span><span class="p">,</span> <span class="n">trace2</span><span class="p">])</span>
+<div class="language-python highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1<br/>2<br/>3</pre></td><td class="code"><pre class="highlight"><code><span class="n">data</span><span class="o">=</span><span class="n">Data</span><span class="p">([</span><span class="n">trace1</span><span class="p">,</span> <span class="n">trace2</span><span class="p">])</span>
 <span class="n">fig</span><span class="o">=</span><span class="n">Figure</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">data</span><span class="p">,</span> <span class="n">layout</span><span class="o">=</span><span class="n">layout</span><span class="p">)</span>
 <span class="n">offline</span><span class="o">.</span><span class="n">iplot</span><span class="p">(</span><span class="n">fig</span><span class="p">,</span> <span class="n">filename</span><span class="o">=</span><span class="s">'Network'</span><span class="p">)</span>
-</code></pre></div></div>
+</code></pre></td></tr></tbody></table></div>
+</div>
 
 <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
 
@@ -423,46 +638,206 @@
 
 
 
-                <hr>
-
-                
-
-
-                <ul class="pager">
-                    
-                    <li class="previous">
-                        <a href="/2017/11/06/Using-Jupyter-Notebook-Remotely/" data-toggle="tooltip" data-placement="top" title="Using Jupyter Notebook on Server">&larr; Previous Post</a>
-                    </li>
-                    
-                    
-                    <li class="next">
-                        <a href="/2017/11/08/Stacking-Template/" data-toggle="tooltip" data-placement="top" title="Stacking with Bayesian Optimization">Next Post &rarr;</a>
-                    </li>
-                    
-                </ul>
-
-
-                
-
-                
-
-            </div>
-
-    <!-- Sidebar Container -->
-            <div class="
-                col-lg-8 col-lg-offset-2
-                col-md-10 col-md-offset-1
-                sidebar-container">
-
-                <!-- Featured Tags -->
-                
-
-                <!-- Friends Blog -->
-                
-            </div>
-        </div>
+      
     </div>
-</article>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            
+            <a href="/tag/#/python" rel="tag"># python</a>
+          
+        </div>
+      
+
+      
+      
+      
+      
+      
+
+      
+      
+        <div class="post-nav" id="post-nav-id">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/11/08/Stacking-Template/" rel="next" title="Stacking with Bayesian Optimization">
+                <i class="fa fa-chevron-left"></i> Stacking with Bayesian Optimization
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/11/06/Using-Jupyter-Notebook-Remotely/" rel="prev" title="Using Jupyter Notebook on Server">
+                Using Jupyter Notebook on Server <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+      
+
+      
+    </footer>
+  </article>
+
+  <div class="post-spread">
+    
+  </div>
+</div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+        
+        
+        
+
+
+
+
+
+
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            Overview
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/assets/images/avatar.gif"
+               alt="Shiki" />
+          <p class="site-author-name" itemprop="name">Shiki</p>
+           
+              <p class="site-description motion-element" itemprop="description"> </p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives/">
+                <span class="site-state-item-count">6</span>
+                <span class="site-state-item-name">posts</span>
+              </a>
+            </div>
+          
+
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/">
+                <span class="site-state-item-count">4</span>
+                <span class="site-state-item-name">tags</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+        
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              
+              
+              <span class="links-of-author-item">
+                <a href="https://github.com/Shiki-H" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                  GitHub
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+            
+            
+            
 
 
 
@@ -471,151 +846,249 @@
 
 
 
-<!-- async load function -->
-<script>
-    function async(u, c) {
-      var d = document, t = 'script',
-          o = d.createElement(t),
-          s = d.getElementsByTagName(t)[0];
-      o.src = u;
-      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
-      s.parentNode.insertBefore(o, s);
-    }
+            
+              <div class="post-toc-content">
+    <ol class=nav>
+      <li class="nav-item nav-level-2"> <a class="nav-link" href="#required-packages"> <span class="nav-number">1</span> <span class="nav-text">Required Packages</span> </a> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#building-graph-from-raw-data"> <span class="nav-number">2</span> <span class="nav-text">Building Graph from Raw Data</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-3"> <a class="nav-link" href="#data-preview"> <span class="nav-number">2.1</span> <span class="nav-text">Data Preview</span> </a> </li> <li class="nav-item nav-level-3"> <a class="nav-link" href="#building-graph"> <span class="nav-number">2.2</span> <span class="nav-text">Building Graph</span> </a> </li> </ol> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#graph-analysis"> <span class="nav-number">3</span> <span class="nav-text">Graph Analysis</span> </a> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#visualization"> <span class="nav-number">4</span> <span class="nav-text">Visualization</span> </a> </li>
+    </ol>
+  </div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  
+  &copy;  2017 - 
+  <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Shiki</span>
+</div>
+
+
+<div class="powered-by">
+  Powered by <a class="theme-link" href="https://jekyllrb.com">Jekyll</a>
+</div>
+
+<div class="theme-info">
+  Theme -
+  <a class="theme-link" href="https://github.com/simpleyyt/jekyll-theme-next">
+    NexT.Mist
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
 </script>
-<!-- anchor-js, Doc:http://bryanbraun.github.io/anchorjs/ -->
-<script>
-    async("http://cdn.bootcss.com/anchor-js/1.1.1/anchor.min.js",function(){
-        anchors.options = {
-          visible: 'always',
-          placement: 'right',
-          icon: '#'
-        };
-        anchors.add().remove('.intro-header h1').remove('.subheading').remove('.sidebar-container h5');
-    })
-</script>
-<style>
-    /* place left on bigger screen */
-    @media all and (min-width: 800px) {
-        .anchorjs-link{
-            position: absolute;
-            left: -0.75em;
-            font-size: 1.1em;
-            margin-top : -0.1em;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+   
+  
+  
+  
+  
+  
+  <script type="text/javascript" src="/assets/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  
+  
+  
+  
+  <script type="text/javascript" src="/assets/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  
+  
+  
+  
+  <script type="text/javascript" src="/assets/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  
+  
+  
+  
+  <script type="text/javascript" src="/assets/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  
+  
+  
+  
+  <script type="text/javascript" src="/assets/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  
+  
+  
+  
+  <script type="text/javascript" src="/assets/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/assets/js/src/utils.js?v=5.1.1"></script>
+
+  <script type="text/javascript" src="/assets/js/src/motion.js?v=5.1.1"></script>
+
+
+
+  
+  
+
+  <script type="text/javascript" src="/assets/js/src/scrollspy.js?v=5.1.1"></script>
+<script type="text/javascript" src="/assets/js/src/post-details.js?v=5.1.1"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/assets/js/src/bootstrap.js?v=5.1.1"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+  
+
+    
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+
+  
+
+  
+  
+
+
+  
+  
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
         }
-    }
-</style>
-
-
-
-    <!-- Footer -->
-<footer>
-    <div class="container">
-        <div class="row">
-            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
-                <ul class="list-inline text-center">
-                    
-                    
-
-                    <!-- add Weibo, Zhihu by Hux, add target = "_blank" to <a> by Hux -->
-                    
-                    
-
-
-                    
-                    
-                </ul>
-                <p class="copyright text-muted">
-                    Copyright &copy; Siqi's Page 2017
-                    <br>
-                    Theme by <a href="http://huangxuan.me">Hux</a> |
-                    <iframe
-                        style="margin-left: 2px; margin-bottom:-5px;"
-                        frameborder="0" scrolling="0" width="91px" height="20px"
-                        src="https://ghbtns.com/github-btn.html?user=huxpro&repo=huxpro.github.io&type=star&count=true" >
-                    </iframe>
-                </p>
-            </div>
-        </div>
-    </div>
-</footer>
-
-<!-- jQuery -->
-<script src="/js/jquery.min.js "></script>
-
-<!-- Bootstrap Core JavaScript -->
-<script src="/js/bootstrap.min.js "></script>
-
-<!-- Custom Theme JavaScript -->
-<script src="/js/hux-blog.min.js "></script>
-
-
-<!-- async load function -->
-<script>
-    function async(u, c) {
-      var d = document, t = 'script',
-          o = d.createElement(t),
-          s = d.getElementsByTagName(t)[0];
-      o.src = u;
-      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
-      s.parentNode.insertBefore(o, s);
-    }
-</script>
-
-<!-- 
-     Because of the native support for backtick-style fenced code blocks 
-     right within the Markdown is landed in Github Pages, 
-     From V1.6, There is no need for Highlight.js, 
-     so Huxblog drops it officially.
-
-     - https://github.com/blog/2100-github-pages-now-faster-and-simpler-with-jekyll-3-0  
-     - https://help.github.com/articles/creating-and-highlighting-code-blocks/    
--->
-<!--
-    <script>
-        async("http://cdn.bootcss.com/highlight.js/8.6/highlight.min.js", function(){
-            hljs.initHighlightingOnLoad();
-        })
+      });
     </script>
-    <link href="http://cdn.bootcss.com/highlight.js/8.6/styles/github.min.css" rel="stylesheet">
--->
+
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+      });
+    </script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+  
 
 
-<!-- jquery.tagcloud.js -->
-<script>
-    // only load tagcloud.js in tag.html
-    if($('#tag_cloud').length !== 0){
-        async("/js/jquery.tagcloud.js",function(){
-            $.fn.tagcloud.defaults = {
-                //size: {start: 1, end: 1, unit: 'em'},
-                color: {start: '#bbbbee', end: '#0085a1'},
-            };
-            $('#tag_cloud a').tagcloud();
-        })
-    }
-</script>
+  
 
-<!--fastClick.js -->
-<script>
-    async("http://cdn.bootcss.com/fastclick/1.0.6/fastclick.min.js", function(){
-        var $nav = document.querySelector("nav");
-        if($nav) FastClick.attach($nav);
-    })
-</script>
-
-
-<!-- Google Analytics -->
-
-
-
-<!-- Baidu Tongji -->
-
-
-
-
-<!-- Image to hack wechat -->
-<!--<img src="/img/icon_wechat.png" width="0" height="0" />-->
-<!-- Migrate from head to bottom, no longer block render and still work -->
+  
 
 </body>
-
 </html>
+

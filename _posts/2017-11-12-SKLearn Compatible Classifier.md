@@ -1,17 +1,10 @@
 ---
 layout:     post
 title:      "Homemade sklearn Classifier"
-subtitle:   ""
-date:       2017-11-12 07:00:00
-author:     "Siqi"
-header-img: "img/default.jpg"
-mathjax: true
 tags:
     - python
     - machine learning
 ---
-
-## Introduction
 
 ```sklearn``` offers a variety of tools which allows quick set-up of machine learning pipelines, and many other packages are also compatible with ```sklearn``` api. When there comes an occasion you have to implement your own algorithm, it is a good idea to make it the ```sklearn``` way (so you can leave hyper-parameter tuning to ```bayes_opt```)
 
