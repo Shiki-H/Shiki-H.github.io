@@ -1,4 +1,158 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.5.2">Jekyll</generator><link href="http://localhost:4000/atom.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2018-09-01T00:57:05-04:00</updated><id>http://localhost:4000/</id><title type="html">Random Notes</title><subtitle> </subtitle><author><name>Shiki</name></author><entry><title type="html">Learning to Rank - Overview</title><link href="http://localhost:4000/2018/08/30/Learning-to-Rank/" rel="alternate" type="text/html" title="Learning to Rank - Overview" /><published>2018-08-30T00:00:00-04:00</published><updated>2018-08-30T00:00:00-04:00</updated><id>http://localhost:4000/2018/08/30/Learning-to-Rank</id><content type="html" xml:base="http://localhost:4000/2018/08/30/Learning-to-Rank/">&lt;p&gt;Learning to Rank (LTR) is essentially applying supervised machine learning to ranking problems. For ranking problem, we are usually given a set of items and our objective is to find the optimal ordering of this set. For example, in web search, we need to find the best ordering of websites such that websites most relevant to the given query are ordered in the front.&lt;/p&gt;
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.5.2">Jekyll</generator><link href="http://localhost:4000/atom.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2018-09-03T00:20:17-04:00</updated><id>http://localhost:4000/</id><title type="html">Random Notes</title><subtitle> </subtitle><author><name>Shiki</name></author><entry><title type="html">LambdaMART Derivation</title><link href="http://localhost:4000/2018/09/01/LambdaMART-Derivation/" rel="alternate" type="text/html" title="LambdaMART Derivation" /><published>2018-09-01T00:00:00-04:00</published><updated>2018-09-01T00:00:00-04:00</updated><id>http://localhost:4000/2018/09/01/LambdaMART-Derivation</id><content type="html" xml:base="http://localhost:4000/2018/09/01/LambdaMART-Derivation/">&lt;p&gt;Last time we talked about the general workflow of learning to rank and how to implement LambdaMART in python. This time, we will go through the derivations of LambdaMART.&lt;/p&gt;
+
+&lt;h2 id=&quot;ranknet&quot;&gt;RankNet&lt;/h2&gt;
+
+&lt;p&gt;RankNet maps an input feature vector $x\in \mathbb{R}^N$ to a number $f(x)$. For each pair of documents with different labels $d_i$ and $d_j$, we can obtain a score $s_i=f(x_i)$ and $s_j=f(x_j)$. Let $d_i\rhd d_j$ denotes the event that $d_i$ is ranked above $d_j$. We can map the scores $s_i$ and $s_j$ to a learned probability model such that $d_i$ should be ranked higher than $d_j$:
+&lt;script type=&quot;math/tex&quot;&gt;\newcommand{\pder}[2][]{\frac{\partial#1}{\partial#2}}
+\newcommand{\eqdef}{=\mathrel{\mathop:}}
+\newcommand{\defeq}{\mathrel{\mathop:}=}
+\DeclareMathOperator*{\argmin}{arg\,min}
+P_{ij}=\mathbb{P}(d_i\rhd d_j)=\frac{1}{1+e^{-\sigma (s_i-s_j)}}&lt;/script&gt;&lt;/p&gt;
+
+&lt;p&gt;We define the cost function using cross entropy&lt;/p&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;C = -\bar{P}_{ij}logP_{ij}-(1-\bar{P}_{ij})log(1-P_{ij})&lt;/script&gt;
+
+&lt;p&gt;where $\bar{P}_{ij}$ is the known probability that $d_i\rhd d_j$.&lt;/p&gt;
+
+&lt;p&gt;Let $S_{ij}\in{0, \pm 1}$ be 1 if $d_i\rhd d_j$, -1 if $d_j\rhd d_i$, and 0 if $d_i$ and $d_j$ have the same rank. For simplicity, we assume that the ranking is deterministic known from labelled data. Thus, we have $\bar{P}&lt;em&gt;{ij}=\frac{1}{2}(1+S&lt;/em&gt;{ij})$. Re-write the cost function, we have&lt;/p&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;C = \frac{1}{2}(1-S_{ij})\sigma(s_i-s_j)+log(1+e^{-\sigma(s_i-s_j)})&lt;/script&gt;
+
+&lt;p&gt;To update the weights of the model, we have the familiar gradient descent formula&lt;/p&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;w_k \rightarrow w_k - \eta\pder[C]{w_k}&lt;/script&gt;
+
+&lt;p&gt;where&lt;/p&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;\pder[C]{w_k} = \pder[C]{s_i}\pder[s_i]{w_k}+\pder[C]{s_j}\pder[s_j]{w_k}   \tag{1}&lt;/script&gt;
+
+&lt;p&gt;Note that&lt;/p&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;\pder[C]{s_i}=\sigma\Big[\frac{1}{2}(1-S_{ij})-\frac{1}{1+e^{\sigma(s_i-s_j)}}\Big]=-\pder[C]{s_j}  \tag{2}&lt;/script&gt;
+
+&lt;p&gt;Now, we sub Eq.(2) into Eq.(1), we can factorize the cost function to the following form:&lt;/p&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;% &lt;![CDATA[
+\begin{aligned}
+    \pder[C]{w_k}&amp;=\pder[C]{s_i}\pder[s_i]{w_k}+\pder[C]{s_j}\pder[s_j]{w_k} \\
+        &amp;=\sigma\Big[\frac{1}{2}(1-S_{ij})-\frac{1}{1+e^{\sigma(s_i-s_j)}}\Big]\Big(\pder[s_i]{w_k}-\pder[s_j]{w_k}\Big) \\
+        &amp;=\lambda_{ij}\Big(\pder[s_i]{w_k}-\pder[s_j]{w_k}\Big)
+\end{aligned} %]]&gt;&lt;/script&gt;
+
+&lt;p&gt;where 
+&lt;script type=&quot;math/tex&quot;&gt;\lambda_{ij}\defeq\pder[C]{s_i}=\sigma\Big[\frac{1}{2}(1-S_{ij})-\frac{1}{1+e^{\sigma(s_i-s_j)}}\Big]=-\pder[C]{s_j}    \tag{3}&lt;/script&gt;&lt;/p&gt;
+
+&lt;p&gt;This approach works well if the cost function is differentiable with respect to $s_i$. However, most evaluation metrics in information retrieval such as NDCG are discontinuous as many of them need to sort the result before computing the actual value. As a result, we cannot directly use gradient descent to update the model parameters.&lt;/p&gt;
+
+&lt;h2 id=&quot;lambdarank&quot;&gt;LambdaRank&lt;/h2&gt;
+
+&lt;p&gt;The problem with RankNet is that it could not optimize information retrieval metrics directly. Here is a graphical illustration of the issue.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;http://localhost:4000/assets/images/posts/2018-09-01-lambdamart/ranknet_gradient.png&quot; alt=&quot;ranknet_gradient&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;In the graph above, each grey line represents an irrelevant document, while blue line represents a relevant document. In the left, the number of pairwise errors is 13. By moving the relevant document at the top down by 3 and the bottom document up by 5, we can reduce the number of errors to 11. This is represented by the black arrows. However, for most information retrieval metrics, we only care about the top $k$ entries and the gradients are represented by red arrows.&lt;/p&gt;
+
+&lt;p&gt;Is there any chance we can obtain the gradients (red arrows) directly? Based on empirical results, modifying Eq.(3) by scaling the size of change of evaluation metrics (such as NDCG and MAP) which we will denote by $\lvert\Delta Z_{ij}\rvert$ given by swapping rank position of $d_i$ and $d_j$ gives good results. As a result, in LambdaRank we assume there is a &lt;strong&gt;utility function&lt;/strong&gt; $U$ whose derivative is $\lambda_{ij}$ such that&lt;/p&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;\lambda_{ij}=\pder[U]{s_i}=-\frac{\sigma}{1+e^{-\sigma(s_i-s_j)}}|\Delta Z_{ij}|&lt;/script&gt;
+
+&lt;p&gt;Here we need to use utility function instead of cost function because for most information retrieval metrics, higher means better, so we would like to maximize it. As a result, the weight update rule becomes&lt;/p&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;w_k \rightarrow w_k + \eta\pder[U]{w_k}&lt;/script&gt;
+
+&lt;p&gt;Let $I$ denote the set of pairs ${i, j}$ such that $d_i\rhd d_j$. For a given query, $\lambda_i$ associated with each $d_i$ is therefore&lt;/p&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;\lambda_i=\sum_{j:\{i, j\}\in I}\lambda_{ij}-\sum_{j:\{j, i\}\in I}\lambda_{ij}&lt;/script&gt;
+
+&lt;p&gt;Thus for each $d_i$, we can write down a utility function&lt;/p&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;U = \sum_{\{i, j\}\in I}|\Delta Z_{ij}|log(1+e^{-\sigma(s_i-s_j)})  \tag{4}&lt;/script&gt;
+
+&lt;h3 id=&quot;physical-interpretation-of-lambdarank&quot;&gt;Physical Interpretation of LambdaRank&lt;/h3&gt;
+
+&lt;p&gt;In the original paper, the authors gave a physical interpretation of LambdaRank which is noteworthy. The authors suggested that we can essentially treat each document as a point mass and $\lambda$-gradients are forces on the point mass. Positive lambda represents a push toward the top rank while negative lambda represents a push toward lower rank. We can therefore compute the net force acting on the point mass and the changes in the magnitude of the forces during training.&lt;/p&gt;
+
+&lt;h2 id=&quot;mart&quot;&gt;MART&lt;/h2&gt;
+
+&lt;p&gt;Before going over LambdaMART, it is worthwhile to take a quick detour to MART. The complete name for MART is Multiple Additive Regression Tree, which as its name suggests, essentially applies gradient boosting to regression trees. In a general supervised learning problem, we are trying to find an approxiamtion $\hat{f}(x)=y$ such that&lt;/p&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;\hat{f}(x)=\argmin_{f(x)}L(y, f(x))&lt;/script&gt;
+
+&lt;p&gt;where $L(\cdot, \cdot)$ denotes loss funtion.&lt;/p&gt;
+
+&lt;p&gt;Under the settings of MART, we are looking for&lt;/p&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;\hat{f}(x)=f_M(x)=\sum^M_{m=1}T(x; \Theta_m)&lt;/script&gt;
+
+&lt;p&gt;where $T(x; \Theta_m)$ denotes a tree model with prameters $\Theta_m$.&lt;/p&gt;
+
+&lt;p&gt;With stage-wise additive modeling (for more details, refer to Elements of Statistical Learning Chapter 10), at each step in the forward step-wise procedure, we have&lt;/p&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;\hat{\Theta}_m=\argmin_{\Theta_m}\sum^N_{i=1}L(y_i, f_{m-1}(x_i)+T(x_i; \Theta_m))  \tag{5}&lt;/script&gt;
+
+&lt;p&gt;Solving the above equation exactly is quite challenging. However, we realize that this is a greedy approach. At each step, we would like $T(x_i; \Theta_m)$ to minimize Eq.(5) given $f_{m-1}$ fitted on $x_i$. Thus, $T(x_i; \Theta_m)$ is analogous to the negative gradient defined by&lt;/p&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;g_{im} = \Big[\pder[L(y_i, f(x_i)]{f(x_i)}\Big]_{f(x_i)=f_{m-1}(x_i)}&lt;/script&gt;
+
+&lt;p&gt;As a result, we can now solve Eq.(5) with&lt;/p&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;\tilde{\Theta}_m=\argmin_{\Theta}\sum^N_{i=1}[-g_{im}-T(x_i; \Theta)]^2 \tag{6}&lt;/script&gt;
+
+&lt;p&gt;From Eq.(6), we can see that for MART model, we do not really need to define a specific loss function. In fact, all we care about is the gradient $g_{im}$.&lt;/p&gt;
+
+&lt;h2 id=&quot;lambdamart&quot;&gt;LambdaMART&lt;/h2&gt;
+
+&lt;p&gt;Now, we can see that&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;
+    &lt;p&gt;MART is a general framework that only requires a gradient to work&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;LambdaRank defines a gradient&lt;/p&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;LambdaRank and MART naturally pairs up which gives us LambdaMART.&lt;/p&gt;
+
+&lt;p&gt;From Eq.(4), we can obtain&lt;/p&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;\pder[U]{s_i}=\sum_{\{i, j\}\in I}\frac{-\sigma|\Delta Z_{ij}|}{1+e^{\sigma(s_i-s_j)}}=\sum_{\{i, j\}\in I}-\sigma|\Delta Z_{ij}|\rho_{ij}&lt;/script&gt;
+
+&lt;p&gt;where $\rho_{ij}\defeq\frac{1}{1+e^{\sigma(s_i-s_j)}}$.&lt;/p&gt;
+
+&lt;p&gt;Then we can also obtain&lt;/p&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;\frac{\partial^2U}{\partial^2_{s_i}}=\sum_{\{i, j\}\in I}\sigma^2|\Delta Z_{ij}|\rho_{ij}(1-\rho_{ij})&lt;/script&gt;
+
+&lt;p&gt;The Newton step-size for the $k$-th leaf of the $m$-th tree is&lt;/p&gt;
+
+&lt;script type=&quot;math/tex; mode=display&quot;&gt;\gamma_{km}=\frac{\sum_{x_i\in R_{km}}\pder[U]{s_i}}{\sum_{x_i\in R_{km}}\frac{\partial^2U}{\partial^2_{s_i}}}&lt;/script&gt;
+
+&lt;p&gt;The overall procedure of LambdaMART is therefore given by&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;http://localhost:4000/assets/images/posts/2018-09-01-lambdamart/LambdaMART.jpg&quot; alt=&quot;Algorithm&quot; /&gt;&lt;/p&gt;
+
+&lt;h2 id=&quot;references&quot;&gt;References&lt;/h2&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;
+    &lt;p&gt;&lt;a href=&quot;https://www.microsoft.com/en-us/research/publication/from-ranknet-to-lambdarank-to-lambdamart-an-overview/&quot;&gt;From RankNet to LambdaRank to LambdaMART: An Overview&lt;/a&gt;&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;&lt;a href=&quot;https://www.cs.cmu.edu/~pinard/Papers/sigirfp092-donmez.pdf&quot;&gt;On the Local Optimality of LambdaRank&lt;/a&gt;&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;&lt;a href=&quot;https://www.microsoft.com/en-us/research/wp-content/uploads/2016/02/LambdaMART_Final.pdf&quot;&gt;Adapting Boosting for Information Retrieval Measures&lt;/a&gt;&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;&lt;a href=&quot;https://papers.nips.cc/paper/2971-learning-to-rank-with-nonsmooth-cost-functions.pdf&quot;&gt;Learning to Rank with Nonsmooth Cost Functions&lt;/a&gt;&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;&lt;a href=&quot;https://liam0205.me/2016/07/10/a-not-so-simple-introduction-to-lambdamart/&quot;&gt;A Not So Simple Introduction to LambdaMART&lt;/a&gt;&lt;/p&gt;
+  &lt;/li&gt;
+&lt;/ol&gt;</content><author><name>Shiki</name></author><category term="machine learning" /><summary type="html">Last time we talked about the general workflow of learning to rank and how to implement LambdaMART in python. This time, we will go through the derivations of LambdaMART.</summary></entry><entry><title type="html">Learning to Rank - Overview</title><link href="http://localhost:4000/2018/08/30/Learning-to-Rank/" rel="alternate" type="text/html" title="Learning to Rank - Overview" /><published>2018-08-30T00:00:00-04:00</published><updated>2018-08-30T00:00:00-04:00</updated><id>http://localhost:4000/2018/08/30/Learning-to-Rank</id><content type="html" xml:base="http://localhost:4000/2018/08/30/Learning-to-Rank/">&lt;p&gt;Learning to Rank (LTR) is essentially applying supervised machine learning to ranking problems. For ranking problem, we are usually given a set of items and our objective is to find the optimal ordering of this set. For example, in web search, we need to find the best ordering of websites such that websites most relevant to the given query are ordered in the front.&lt;/p&gt;
 
 &lt;p&gt;For the purpose of this note, I will give a quick overview of the LTR framework and provide a demo on how to actually solve a LTR problem in Python with LambdaMART, which is one of the most successful LTR methods.&lt;/p&gt;
 

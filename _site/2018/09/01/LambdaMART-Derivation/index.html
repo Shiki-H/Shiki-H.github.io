@@ -1,0 +1,981 @@
+
+<!doctype html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<html class="theme-next mist" lang="en">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/assets/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/assets/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/assets/css/main.css?v=5.1.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="machine learning," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/assets/favicon.ico?v=5.1.1" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="Last time we talked about the general workflow of learning to rank and how to implement LambdaMART in python. This time, we will go through the derivations of LambdaMART.">
+<meta name="keywords" content="machine learning">
+<meta property="og:type" content="article">
+<meta property="og:title" content="LambdaMART Derivation">
+<meta property="og:url" content="http://localhost:4000/2018/09/01/LambdaMART-Derivation/">
+<meta property="og:site_name" content="Random Notes">
+<meta property="og:description" content="Last time we talked about the general workflow of learning to rank and how to implement LambdaMART in python. This time, we will go through the derivations of LambdaMART.">
+<meta property="og:locale" content="en">
+<meta property="og:image" content="http://localhost:4000/assets/images/posts/2018-09-01-lambdamart/ranknet_gradient.png">
+<meta property="og:image" content="http://localhost:4000/assets/images/posts/2018-09-01-lambdamart/LambdaMART.jpg">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="LambdaMART Derivation">
+<meta name="twitter:description" content="Last time we talked about the general workflow of learning to rank and how to implement LambdaMART in python. This time, we will go through the derivations of LambdaMART.">
+<meta name="twitter:image" content="http://localhost:4000/assets/images/posts/2018-09-01-lambdamart/ranknet_gradient.png">
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '',
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    fancybox: true,
+    motion: false,
+    duoshuo: {
+      userId: '0',
+      author: 'Author'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://localhost:4000/"/>
+
+
+
+
+
+  <title>LambdaMART Derivation | Random Notes</title>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="en">
+
+  
+  
+
+  <div class="container sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"> <div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Random Notes</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            Home
+          </a>
+        </li>
+      
+        
+        
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            About
+          </a>
+        </li>
+      
+        
+        
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            Archives
+          </a>
+        </li>
+      
+        
+        
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            Tags
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        inlineMath: [['$','$'], ['\\(','\\)']],
+        processEscapes: true
+      }
+    });
+    </script>
+    <script src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML" type="text/javascript"></script>
+
+
+<div id="posts" class="posts-expand">
+  
+  
+
+  
+
+  
+  
+  
+
+  <article class="post post-type- " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://localhost:4000/2018/09/01/LambdaMART-Derivation/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Shiki">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/assets/images/avatar.jpeg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Random Notes">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+          
+          
+            LambdaMART Derivation
+          
+        </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-09-01T00:00:00-04:00">
+                2018-09-01
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+            
+                <div class="post-description">
+                    
+                </div>
+            
+          
+
+        </div>
+      </header>
+    
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+  
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  <p>Last time we talked about the general workflow of learning to rank and how to implement LambdaMART in python. This time, we will go through the derivations of LambdaMART.</p>
+
+<h2 id="ranknet">RankNet</h2>
+
+<p>RankNet maps an input feature vector $x\in \mathbb{R}^N$ to a number $f(x)$. For each pair of documents with different labels $d_i$ and $d_j$, we can obtain a score $s_i=f(x_i)$ and $s_j=f(x_j)$. Let $d_i\rhd d_j$ denotes the event that $d_i$ is ranked above $d_j$. We can map the scores $s_i$ and $s_j$ to a learned probability model such that $d_i$ should be ranked higher than $d_j$:
+<script type="math/tex">\newcommand{\pder}[2][]{\frac{\partial#1}{\partial#2}}
+\newcommand{\eqdef}{=\mathrel{\mathop:}}
+\newcommand{\defeq}{\mathrel{\mathop:}=}
+\DeclareMathOperator*{\argmin}{arg\,min}
+P_{ij}=\mathbb{P}(d_i\rhd d_j)=\frac{1}{1+e^{-\sigma (s_i-s_j)}}</script></p>
+
+<p>We define the cost function using cross entropy</p>
+
+<script type="math/tex; mode=display">C = -\bar{P}_{ij}logP_{ij}-(1-\bar{P}_{ij})log(1-P_{ij})</script>
+
+<p>where $\bar{P}_{ij}$ is the known probability that $d_i\rhd d_j$.</p>
+
+<p>Let $S_{ij}\in{0, \pm 1}$ be 1 if $d_i\rhd d_j$, -1 if $d_j\rhd d_i$, and 0 if $d_i$ and $d_j$ have the same rank. For simplicity, we assume that the ranking is deterministic known from labelled data. Thus, we have $\bar{P}<em>{ij}=\frac{1}{2}(1+S</em>{ij})$. Re-write the cost function, we have</p>
+
+<script type="math/tex; mode=display">C = \frac{1}{2}(1-S_{ij})\sigma(s_i-s_j)+log(1+e^{-\sigma(s_i-s_j)})</script>
+
+<p>To update the weights of the model, we have the familiar gradient descent formula</p>
+
+<script type="math/tex; mode=display">w_k \rightarrow w_k - \eta\pder[C]{w_k}</script>
+
+<p>where</p>
+
+<script type="math/tex; mode=display">\pder[C]{w_k} = \pder[C]{s_i}\pder[s_i]{w_k}+\pder[C]{s_j}\pder[s_j]{w_k}   \tag{1}</script>
+
+<p>Note that</p>
+
+<script type="math/tex; mode=display">\pder[C]{s_i}=\sigma\Big[\frac{1}{2}(1-S_{ij})-\frac{1}{1+e^{\sigma(s_i-s_j)}}\Big]=-\pder[C]{s_j}  \tag{2}</script>
+
+<p>Now, we sub Eq.(2) into Eq.(1), we can factorize the cost function to the following form:</p>
+
+<script type="math/tex; mode=display">% <![CDATA[
+\begin{aligned}
+    \pder[C]{w_k}&=\pder[C]{s_i}\pder[s_i]{w_k}+\pder[C]{s_j}\pder[s_j]{w_k} \\
+        &=\sigma\Big[\frac{1}{2}(1-S_{ij})-\frac{1}{1+e^{\sigma(s_i-s_j)}}\Big]\Big(\pder[s_i]{w_k}-\pder[s_j]{w_k}\Big) \\
+        &=\lambda_{ij}\Big(\pder[s_i]{w_k}-\pder[s_j]{w_k}\Big)
+\end{aligned} %]]></script>
+
+<p>where 
+<script type="math/tex">\lambda_{ij}\defeq\pder[C]{s_i}=\sigma\Big[\frac{1}{2}(1-S_{ij})-\frac{1}{1+e^{\sigma(s_i-s_j)}}\Big]=-\pder[C]{s_j}    \tag{3}</script></p>
+
+<p>This approach works well if the cost function is differentiable with respect to $s_i$. However, most evaluation metrics in information retrieval such as NDCG are discontinuous as many of them need to sort the result before computing the actual value. As a result, we cannot directly use gradient descent to update the model parameters.</p>
+
+<h2 id="lambdarank">LambdaRank</h2>
+
+<p>The problem with RankNet is that it could not optimize information retrieval metrics directly. Here is a graphical illustration of the issue.</p>
+
+<p><img src="http://localhost:4000/assets/images/posts/2018-09-01-lambdamart/ranknet_gradient.png" alt="ranknet_gradient" /></p>
+
+<p>In the graph above, each grey line represents an irrelevant document, while blue line represents a relevant document. In the left, the number of pairwise errors is 13. By moving the relevant document at the top down by 3 and the bottom document up by 5, we can reduce the number of errors to 11. This is represented by the black arrows. However, for most information retrieval metrics, we only care about the top $k$ entries and the gradients are represented by red arrows.</p>
+
+<p>Is there any chance we can obtain the gradients (red arrows) directly? Based on empirical results, modifying Eq.(3) by scaling the size of change of evaluation metrics (such as NDCG and MAP) which we will denote by $\lvert\Delta Z_{ij}\rvert$ given by swapping rank position of $d_i$ and $d_j$ gives good results. As a result, in LambdaRank we assume there is a <strong>utility function</strong> $U$ whose derivative is $\lambda_{ij}$ such that</p>
+
+<script type="math/tex; mode=display">\lambda_{ij}=\pder[U]{s_i}=-\frac{\sigma}{1+e^{-\sigma(s_i-s_j)}}|\Delta Z_{ij}|</script>
+
+<p>Here we need to use utility function instead of cost function because for most information retrieval metrics, higher means better, so we would like to maximize it. As a result, the weight update rule becomes</p>
+
+<script type="math/tex; mode=display">w_k \rightarrow w_k + \eta\pder[U]{w_k}</script>
+
+<p>Let $I$ denote the set of pairs ${i, j}$ such that $d_i\rhd d_j$. For a given query, $\lambda_i$ associated with each $d_i$ is therefore</p>
+
+<script type="math/tex; mode=display">\lambda_i=\sum_{j:\{i, j\}\in I}\lambda_{ij}-\sum_{j:\{j, i\}\in I}\lambda_{ij}</script>
+
+<p>Thus for each $d_i$, we can write down a utility function</p>
+
+<script type="math/tex; mode=display">U = \sum_{\{i, j\}\in I}|\Delta Z_{ij}|log(1+e^{-\sigma(s_i-s_j)})  \tag{4}</script>
+
+<h3 id="physical-interpretation-of-lambdarank">Physical Interpretation of LambdaRank</h3>
+
+<p>In the original paper, the authors gave a physical interpretation of LambdaRank which is noteworthy. The authors suggested that we can essentially treat each document as a point mass and $\lambda$-gradients are forces on the point mass. Positive lambda represents a push toward the top rank while negative lambda represents a push toward lower rank. We can therefore compute the net force acting on the point mass and the changes in the magnitude of the forces during training.</p>
+
+<h2 id="mart">MART</h2>
+
+<p>Before going over LambdaMART, it is worthwhile to take a quick detour to MART. The complete name for MART is Multiple Additive Regression Tree, which as its name suggests, essentially applies gradient boosting to regression trees. In a general supervised learning problem, we are trying to find an approxiamtion $\hat{f}(x)=y$ such that</p>
+
+<script type="math/tex; mode=display">\hat{f}(x)=\argmin_{f(x)}L(y, f(x))</script>
+
+<p>where $L(\cdot, \cdot)$ denotes loss funtion.</p>
+
+<p>Under the settings of MART, we are looking for</p>
+
+<script type="math/tex; mode=display">\hat{f}(x)=f_M(x)=\sum^M_{m=1}T(x; \Theta_m)</script>
+
+<p>where $T(x; \Theta_m)$ denotes a tree model with prameters $\Theta_m$.</p>
+
+<p>With stage-wise additive modeling (for more details, refer to Elements of Statistical Learning Chapter 10), at each step in the forward step-wise procedure, we have</p>
+
+<script type="math/tex; mode=display">\hat{\Theta}_m=\argmin_{\Theta_m}\sum^N_{i=1}L(y_i, f_{m-1}(x_i)+T(x_i; \Theta_m))  \tag{5}</script>
+
+<p>Solving the above equation exactly is quite challenging. However, we realize that this is a greedy approach. At each step, we would like $T(x_i; \Theta_m)$ to minimize Eq.(5) given $f_{m-1}$ fitted on $x_i$. Thus, $T(x_i; \Theta_m)$ is analogous to the negative gradient defined by</p>
+
+<script type="math/tex; mode=display">g_{im} = \Big[\pder[L(y_i, f(x_i)]{f(x_i)}\Big]_{f(x_i)=f_{m-1}(x_i)}</script>
+
+<p>As a result, we can now solve Eq.(5) with</p>
+
+<script type="math/tex; mode=display">\tilde{\Theta}_m=\argmin_{\Theta}\sum^N_{i=1}[-g_{im}-T(x_i; \Theta)]^2 \tag{6}</script>
+
+<p>From Eq.(6), we can see that for MART model, we do not really need to define a specific loss function. In fact, all we care about is the gradient $g_{im}$.</p>
+
+<h2 id="lambdamart">LambdaMART</h2>
+
+<p>Now, we can see that</p>
+
+<ul>
+  <li>
+    <p>MART is a general framework that only requires a gradient to work</p>
+  </li>
+  <li>
+    <p>LambdaRank defines a gradient</p>
+  </li>
+</ul>
+
+<p>LambdaRank and MART naturally pairs up which gives us LambdaMART.</p>
+
+<p>From Eq.(4), we can obtain</p>
+
+<script type="math/tex; mode=display">\pder[U]{s_i}=\sum_{\{i, j\}\in I}\frac{-\sigma|\Delta Z_{ij}|}{1+e^{\sigma(s_i-s_j)}}=\sum_{\{i, j\}\in I}-\sigma|\Delta Z_{ij}|\rho_{ij}</script>
+
+<p>where $\rho_{ij}\defeq\frac{1}{1+e^{\sigma(s_i-s_j)}}$.</p>
+
+<p>Then we can also obtain</p>
+
+<script type="math/tex; mode=display">\frac{\partial^2U}{\partial^2_{s_i}}=\sum_{\{i, j\}\in I}\sigma^2|\Delta Z_{ij}|\rho_{ij}(1-\rho_{ij})</script>
+
+<p>The Newton step-size for the $k$-th leaf of the $m$-th tree is</p>
+
+<script type="math/tex; mode=display">\gamma_{km}=\frac{\sum_{x_i\in R_{km}}\pder[U]{s_i}}{\sum_{x_i\in R_{km}}\frac{\partial^2U}{\partial^2_{s_i}}}</script>
+
+<p>The overall procedure of LambdaMART is therefore given by</p>
+
+<p><img src="http://localhost:4000/assets/images/posts/2018-09-01-lambdamart/LambdaMART.jpg" alt="Algorithm" /></p>
+
+<h2 id="references">References</h2>
+
+<ol>
+  <li>
+    <p><a href="https://www.microsoft.com/en-us/research/publication/from-ranknet-to-lambdarank-to-lambdamart-an-overview/">From RankNet to LambdaRank to LambdaMART: An Overview</a></p>
+  </li>
+  <li>
+    <p><a href="https://www.cs.cmu.edu/~pinard/Papers/sigirfp092-donmez.pdf">On the Local Optimality of LambdaRank</a></p>
+  </li>
+  <li>
+    <p><a href="https://www.microsoft.com/en-us/research/wp-content/uploads/2016/02/LambdaMART_Final.pdf">Adapting Boosting for Information Retrieval Measures</a></p>
+  </li>
+  <li>
+    <p><a href="https://papers.nips.cc/paper/2971-learning-to-rank-with-nonsmooth-cost-functions.pdf">Learning to Rank with Nonsmooth Cost Functions</a></p>
+  </li>
+  <li>
+    <p><a href="https://liam0205.me/2016/07/10/a-not-so-simple-introduction-to-lambdamart/">A Not So Simple Introduction to LambdaMART</a></p>
+  </li>
+</ol>
+
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            
+            <a href="/tag/#/machine%20learning" rel="tag"># machine learning</a>
+          
+        </div>
+      
+
+      
+      
+      
+      
+      
+
+      
+      
+        <div class="post-nav" id="post-nav-id">
+          <div class="post-nav-next post-nav-item">
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/08/30/Learning-to-Rank/" rel="prev" title="Learning to Rank - Overview">
+                Learning to Rank - Overview <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+      
+
+      
+    </footer>
+  </article>
+
+  <div class="post-spread">
+    
+  </div>
+</div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+        
+        
+        
+
+
+
+
+
+
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            Overview
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/assets/images/avatar.jpeg"
+               alt="Shiki" />
+          <p class="site-author-name" itemprop="name">Shiki</p>
+           
+              <p class="site-description motion-element" itemprop="description"> </p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives/">
+                <span class="site-state-item-count">7</span>
+                <span class="site-state-item-name">posts</span>
+              </a>
+            </div>
+          
+
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/">
+                <span class="site-state-item-count">4</span>
+                <span class="site-state-item-name">tags</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+        
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              
+              
+              <span class="links-of-author-item">
+                <a href="https://github.com/Shiki-H" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                  GitHub
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+            
+            
+            
+
+
+
+
+
+
+
+
+            
+              <div class="post-toc-content">
+    <ol class=nav>
+      <li class="nav-item nav-level-2"> <a class="nav-link" href="#ranknet"> <span class="nav-number">1</span> <span class="nav-text">RankNet</span> </a> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#lambdarank"> <span class="nav-number">2</span> <span class="nav-text">LambdaRank</span> </a> <ol class="nav-child"> <li class="nav-item nav-level-3"> <a class="nav-link" href="#physical-interpretation-of-lambdarank"> <span class="nav-number">2.1</span> <span class="nav-text">Physical Interpretation of LambdaRank</span> </a> </li> </ol> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#mart"> <span class="nav-number">3</span> <span class="nav-text">MART</span> </a> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#lambdamart"> <span class="nav-number">4</span> <span class="nav-text">LambdaMART</span> </a> </li> <li class="nav-item nav-level-2"> <a class="nav-link" href="#references"> <span class="nav-number">5</span> <span class="nav-text">References</span> </a> </li>
+    </ol>
+  </div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  
+  &copy;  2017 - 
+  <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Shiki</span>
+</div>
+
+
+<div class="powered-by">
+  Powered by <a class="theme-link" href="https://jekyllrb.com">Jekyll</a>
+</div>
+
+<div class="theme-info">
+  Theme -
+  <a class="theme-link" href="https://github.com/simpleyyt/jekyll-theme-next">
+    NexT.Mist
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+   
+  
+  
+  
+  
+  
+  <script type="text/javascript" src="/assets/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  
+  
+  
+  
+  <script type="text/javascript" src="/assets/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  
+  
+  
+  
+  <script type="text/javascript" src="/assets/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  
+  
+  
+  
+  <script type="text/javascript" src="/assets/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  
+  
+  
+  
+  <script type="text/javascript" src="/assets/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  
+  
+  
+  
+  <script type="text/javascript" src="/assets/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/assets/js/src/utils.js?v=5.1.1"></script>
+
+  <script type="text/javascript" src="/assets/js/src/motion.js?v=5.1.1"></script>
+
+
+
+  
+  
+
+  <script type="text/javascript" src="/assets/js/src/scrollspy.js?v=5.1.1"></script>
+<script type="text/javascript" src="/assets/js/src/post-details.js?v=5.1.1"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/assets/js/src/bootstrap.js?v=5.1.1"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+  
+
+    
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+
+  
+
+  
+  
+
+
+  
+  
+
+
+  
+
+  
+
+</body>
+</html>
+
