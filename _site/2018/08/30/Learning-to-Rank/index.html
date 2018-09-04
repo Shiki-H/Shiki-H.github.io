@@ -423,54 +423,57 @@ python trans_data.py vali.txt mq2008.vali mq2008.vali.group
 
 <p>Now in Python, we first load all the required packages and data.</p>
 
-<pre><code class="language-Python">import xgboost as xgb
-from xgboost import DMatrix
-from sklearn.datasets import load_svmlight_file
+<div class="language-python highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1<br/>2<br/>3<br/>4<br/>5<br/>6<br/>7<br/>8<br/>9<br/>10<br/>11<br/>12<br/>13<br/>14<br/>15<br/>16<br/>17<br/>18<br/>19<br/>20<br/>21<br/>22<br/>23<br/>24<br/>25<br/>26<br/>27</pre></td><td class="code"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">xgboost</span> <span class="kn">as</span> <span class="nn">xgb</span>
+<span class="kn">from</span> <span class="nn">xgboost</span> <span class="kn">import</span> <span class="n">DMatrix</span>
+<span class="kn">from</span> <span class="nn">sklearn.datasets</span> <span class="kn">import</span> <span class="n">load_svmlight_file</span>
 
-# load feature
-x_train, y_train = load_svmlight_file("mq2008.train")
-x_valid, y_valid = load_svmlight_file("mq2008.vali")
-x_test, y_test = load_svmlight_file("mq2008.test")
+<span class="c"># load feature</span>
+<span class="n">x_train</span><span class="p">,</span> <span class="n">y_train</span> <span class="o">=</span> <span class="n">load_svmlight_file</span><span class="p">(</span><span class="s">"mq2008.train"</span><span class="p">)</span>
+<span class="n">x_valid</span><span class="p">,</span> <span class="n">y_valid</span> <span class="o">=</span> <span class="n">load_svmlight_file</span><span class="p">(</span><span class="s">"mq2008.vali"</span><span class="p">)</span>
+<span class="n">x_test</span><span class="p">,</span> <span class="n">y_test</span> <span class="o">=</span> <span class="n">load_svmlight_file</span><span class="p">(</span><span class="s">"mq2008.test"</span><span class="p">)</span>
 
-# load group information
-group_train = []
-with open("mq2008.train.group", "r") as f:
-    data = f.readlines()
-    for line in data:
-        group_train.append(int(line.split("\n")[0]))
+<span class="c"># load group information</span>
+<span class="n">group_train</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s">"mq2008.train.group"</span><span class="p">,</span> <span class="s">"r"</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+    <span class="n">data</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">readlines</span><span class="p">()</span>
+    <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">data</span><span class="p">:</span>
+        <span class="n">group_train</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">line</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s">"</span><span class="se">\n</span><span class="s">"</span><span class="p">)[</span><span class="mi">0</span><span class="p">]))</span>
 
-group_valid = []
-with open("mq2008.vali.group", "r") as f:
-    data = f.readlines()
-    for line in data:
-        group_valid.append(int(line.split("\n")[0]))
+<span class="n">group_valid</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s">"mq2008.vali.group"</span><span class="p">,</span> <span class="s">"r"</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+    <span class="n">data</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">readlines</span><span class="p">()</span>
+    <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">data</span><span class="p">:</span>
+        <span class="n">group_valid</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">line</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s">"</span><span class="se">\n</span><span class="s">"</span><span class="p">)[</span><span class="mi">0</span><span class="p">]))</span>
 
-group_test = []
-with open("mq2008.test.group", "r") as f:
-    data = f.readlines()
-    for line in data:
-group_test.append(int(line.split("\n")[0]))
-</code></pre>
+<span class="n">group_test</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s">"mq2008.test.group"</span><span class="p">,</span> <span class="s">"r"</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+    <span class="n">data</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">readlines</span><span class="p">()</span>
+    <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">data</span><span class="p">:</span>
+<span class="n">group_test</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">line</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s">"</span><span class="se">\n</span><span class="s">"</span><span class="p">)[</span><span class="mi">0</span><span class="p">]))</span>
+</code></pre></td></tr></tbody></table></div>
+</div>
 
 <p>For <code class="highlighter-rouge">xgboost</code>, we need to transform data into a built-in data structure called <code class="highlighter-rouge">DMatrix</code> before training the model.</p>
 
-<pre><code class="language-Python">train_dmatrix = DMatrix(x_train, y_train)
-valid_dmatrix = DMatrix(x_valid, y_valid)
-test_dmatrix = DMatrix(x_test)
+<div class="language-python highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1<br/>2<br/>3<br/>4<br/>5<br/>6<br/>7</pre></td><td class="code"><pre class="highlight"><code><span class="n">train_dmatrix</span> <span class="o">=</span> <span class="n">DMatrix</span><span class="p">(</span><span class="n">x_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">)</span>
+<span class="n">valid_dmatrix</span> <span class="o">=</span> <span class="n">DMatrix</span><span class="p">(</span><span class="n">x_valid</span><span class="p">,</span> <span class="n">y_valid</span><span class="p">)</span>
+<span class="n">test_dmatrix</span> <span class="o">=</span> <span class="n">DMatrix</span><span class="p">(</span><span class="n">x_test</span><span class="p">)</span>
 
-# set group information
-train_dmatrix.set_group(group_train)
-valid_dmatrix.set_group(group_valid)
-</code></pre>
+<span class="c"># set group information</span>
+<span class="n">train_dmatrix</span><span class="o">.</span><span class="n">set_group</span><span class="p">(</span><span class="n">group_train</span><span class="p">)</span>
+<span class="n">valid_dmatrix</span><span class="o">.</span><span class="n">set_group</span><span class="p">(</span><span class="n">group_valid</span><span class="p">)</span>
+</code></pre></td></tr></tbody></table></div>
+</div>
 
 <p>Now training and get prediction from the model will be fairly straightforward. It is similar to classification or regression, except that LTR need an extra group information (which we have incorporated into DMatrix in the previous step).</p>
 
-<pre><code class="language-Python">params = {'objective': 'rank:pairwise', 'eta': 0.1, 'gamma': 1.0,
-               'min_child_weight': 0.1, 'max_depth': 6}
-xgb_model = xgb.train(params, train_dmatrix, num_boost_round=4,
-                      evals=[(valid_dmatrix, 'validation')])
-pred = xgb_model.predict(test_dmatrix)
-</code></pre>
+<div class="language-python highlighter-rouge"><div class="highlight"><table style="margin: 0px"><tbody><tr><td class="gutter"><pre>1<br/>2<br/>3<br/>4<br/>5</pre></td><td class="code"><pre class="highlight"><code><span class="n">params</span> <span class="o">=</span> <span class="p">{</span><span class="s">'objective'</span><span class="p">:</span> <span class="s">'rank:pairwise'</span><span class="p">,</span> <span class="s">'eta'</span><span class="p">:</span> <span class="mf">0.1</span><span class="p">,</span> <span class="s">'gamma'</span><span class="p">:</span> <span class="mf">1.0</span><span class="p">,</span>
+               <span class="s">'min_child_weight'</span><span class="p">:</span> <span class="mf">0.1</span><span class="p">,</span> <span class="s">'max_depth'</span><span class="p">:</span> <span class="mi">6</span><span class="p">}</span>
+<span class="n">xgb_model</span> <span class="o">=</span> <span class="n">xgb</span><span class="o">.</span><span class="n">train</span><span class="p">(</span><span class="n">params</span><span class="p">,</span> <span class="n">train_dmatrix</span><span class="p">,</span> <span class="n">num_boost_round</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span>
+                      <span class="n">evals</span><span class="o">=</span><span class="p">[(</span><span class="n">valid_dmatrix</span><span class="p">,</span> <span class="s">'validation'</span><span class="p">)])</span>
+<span class="n">pred</span> <span class="o">=</span> <span class="n">xgb_model</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">test_dmatrix</span><span class="p">)</span>
+</code></pre></td></tr></tbody></table></div>
+</div>
 
 <p>Note that the predicted results give us a score for ordering the test set. Thus before applying any evaluation metric, we need to sort the test set based on the scores first.</p>
 
@@ -616,7 +619,7 @@ pred = xgb_model.predict(test_dmatrix)
           
             <div class="site-state-item site-state-posts">
               <a href="/archives/">
-                <span class="site-state-item-count">7</span>
+                <span class="site-state-item-count">6</span>
                 <span class="site-state-item-name">posts</span>
               </a>
             </div>

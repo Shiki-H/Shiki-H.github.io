@@ -5,7 +5,7 @@ tags:
     - Linux
 ---
 
-This posts records the steps I have taken to install Linux Mint 18.3 on MacBook Pro 11, 3 as well as some of the errors I have encoutnered with solutions I found online. The steps should be almost identical for installing Ubuntu.
+This posts records the steps I have taken to install Linux Mint 18.3 on MacBook Pro 11, 3 as well as some of the issues I have encoutnered with solutions I found online. The steps should be almost identical for installing Ubuntu.
 
 ## Install Linux Mint
 

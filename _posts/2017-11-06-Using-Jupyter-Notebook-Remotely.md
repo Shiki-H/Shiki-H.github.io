@@ -9,7 +9,6 @@ mathjax: true
 tags:
     - jupyter
 ---
-## Why Use Jupyter Notebook on Server
 
 When you are working on large data set or need extra computing power, you may need to do the work remotely on a server. For students, since you have access to AWS educate, you should definitely take advantage of it.
 

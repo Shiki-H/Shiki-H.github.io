@@ -6,7 +6,7 @@ tags:
     - python
 ---
 
-Learning to Rank (LTR) is essentially applying supervised machine learning to ranking problems. For ranking problem, we are usually given a set of items and our objective is to find the optimal ordering of this set. For example, in web search, we need to find the best ordering of websites such that websites most relevant to the given query are ordered in the front. 
+Learning to Rank (LTR) is essentially applying supervised machine learning to ranking problems. For ranking problem, we are usually given a set of items and our objective is to find the optimal ordering of this set. For example, in web search, we need to find the best ordering of websites such that websites most relevant to the given query are ordered in the front.  
 
 For the purpose of this note, I will give a quick overview of the LTR framework and provide a demo on how to actually solve a LTR problem in Python with LambdaMART, which is one of the most successful LTR methods.
 
@@ -24,7 +24,7 @@ Once training set is ready, we can train a specific algorithm to learn a ranking
 
 ## Example with Python
 
-Here is a quick example of how to use LTR in Python using ```xgboost```. As an alternaive, you can also use ```lightgbm``` which has similar interface. 
+Here is a quick example of how to use LTR in Python using ```xgboost```. As an alternaive, you can also use ```lightgbm``` which has similar interface.  
 
 First, we need to download the dataset from [here](https://s3-us-west-2.amazonaws.com/xgboost-examples/MQ2008.rar). Once download finishes, extract the files and copy `train.txt`, `test.txt` and `vali.txt` from `Fold1` to a desired folder. 
 
@@ -42,7 +42,7 @@ This will get us the features as well as group information required to perform L
 
 Now in Python, we first load all the required packages and data. 
 
-```Python
+```python
 import xgboost as xgb
 from xgboost import DMatrix
 from sklearn.datasets import load_svmlight_file
@@ -74,7 +74,7 @@ group_test.append(int(line.split("\n")[0]))
 
 For ```xgboost```, we need to transform data into a built-in data structure called `DMatrix` before training the model.
 
-```Python
+```python
 train_dmatrix = DMatrix(x_train, y_train)
 valid_dmatrix = DMatrix(x_valid, y_valid)
 test_dmatrix = DMatrix(x_test)
@@ -86,7 +86,7 @@ valid_dmatrix.set_group(group_valid)
 
 Now training and get prediction from the model will be fairly straightforward. It is similar to classification or regression, except that LTR need an extra group information (which we have incorporated into DMatrix in the previous step).
 
-```Python
+```python
 params = {'objective': 'rank:pairwise', 'eta': 0.1, 'gamma': 1.0,
                'min_child_weight': 0.1, 'max_depth': 6}
 xgb_model = xgb.train(params, train_dmatrix, num_boost_round=4,

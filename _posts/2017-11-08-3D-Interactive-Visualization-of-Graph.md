@@ -10,9 +10,7 @@ tags:
     - python
 ---
 
-## Required Packages
-
-This short demo uses the following packages: plotly, networkx, and igraph, which can be installed with ```pip```.   
+This short demo illustrates how to plot 3D interactive Visualization of Graph with `plotly`. The following packages are required: `plotly`, `networkx`, and `igraph`, which can be installed with ```pip```.  
 
 ## Building Graph from Raw Data
 
