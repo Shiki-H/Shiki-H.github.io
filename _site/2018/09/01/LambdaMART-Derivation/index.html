@@ -405,11 +405,11 @@ P_{ij}=\mathbb{P}(d_i\rhd d_j)=\frac{1}{1+e^{-\sigma (s_i-s_j)}}</script></p>
 
 <p>We define the cost function using cross entropy</p>
 
-<script type="math/tex; mode=display">C = -\bar{P}_{ij}logP_{ij}-(1-\bar{P}_{ij})log(1-P_{ij})</script>
+<script type="math/tex; mode=display">C = -\bar{P_{ij}}logP_{ij}-(1-\bar{P_{ij}})log(1-P_{ij})</script>
 
-<p>where $\bar{P}_{ij}$ is the known probability that $d_i\rhd d_j$.</p>
+<p>where $\bar{P_{ij}}$ is the known probability that $d_i\rhd d_j$.</p>
 
-<p>Let $S_{ij}\in{0, \pm 1}$ be 1 if $d_i\rhd d_j$, -1 if $d_j\rhd d_i$, and 0 if $d_i$ and $d_j$ have the same rank. For simplicity, we assume that the ranking is deterministic known from labelled data. Thus, we have $\bar{P}<em>{ij}=\frac{1}{2}(1+S</em>{ij})$. Re-write the cost function, we have</p>
+<p>Let $S_{ij}\in \{0, \pm 1\} $ be 1 if $d_i\rhd d_j$, -1 if $d_j\rhd d_i$, and 0 if $d_i$ and $d_j$ have the same rank. For simplicity, we assume that the ranking is deterministic known from labelled data. Thus, we have $\bar{P_{ij}}=\frac{1}{2}(1+S_{ij})$. Re-write the cost function, we have</p>
 
 <script type="math/tex; mode=display">C = \frac{1}{2}(1-S_{ij})\sigma(s_i-s_j)+log(1+e^{-\sigma(s_i-s_j)})</script>
 
